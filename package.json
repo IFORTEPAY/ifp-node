@@ -2,11 +2,20 @@
   "name": "ifp-node",
   "version": "1.0.0",
   "description": "sdk for IFortepay",
-  "main": "index.ts",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "files": [
+    "api/**",
+    "card/**",
+    "util/**",
+    "README.md",
+    "package.json",
+    "index.js",
+    "index.d.ts"
+  ],
   "scripts": {
     "lint": "npx eslint **/*.ts",
-    "format": "npx prettier . --write",
-    "prepare": "husky"
+    "format": "npx prettier . --write"
   },
   "keywords": [],
   "author": "",
