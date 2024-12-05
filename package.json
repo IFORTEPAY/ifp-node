@@ -5,7 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "lint": "npx eslint **/*.ts",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
