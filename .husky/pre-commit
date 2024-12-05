@@ -1,3 +1,8 @@
-# force format with prettier and check code with eslint
+#!/usr/bin/env sh
+. "$(dirname "$0")/"
+
+# force to run format with prettier first before commit the code
 npm run format
+
+# make sure to run lint first before commit the code
 npm run lint
