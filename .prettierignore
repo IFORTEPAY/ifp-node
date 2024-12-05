@@ -1,0 +1,8 @@
+# Ignore artifacts:
+dist
+node_modules
+
+# ignore config files
+**/*.json
+**/*.md
+**/*.mjs
