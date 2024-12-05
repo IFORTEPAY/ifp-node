@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+. "$(dirname "$0")/h"
 
 # force to run format with prettier first before commit the code
 npm run format
