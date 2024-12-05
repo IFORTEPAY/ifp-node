@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# force to run format with prettier first before commit the code
+npm run format
+
+# make sure to run lint first before commit the code
+npm run lint
