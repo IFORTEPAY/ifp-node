@@ -5,9 +5,7 @@
   "main": "./index.js",
   "typings": "./index.d.ts",
   "files": [
-    "api/**",
-    "card/**",
-    "util/**",
+    "pg/**",
     "README.md",
     "package.json",
     "index.js",

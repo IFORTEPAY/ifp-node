@@ -1,23 +1,31 @@
 /** STORE GLOBAL TYPE */
 
-export interface ApiConfigOptions {
+export interface PGConfigOptions {
   isProduction?: boolean;
   isDebugLog?: boolean;
   merchantId: string;
   secretUnboundId: string;
   hashKey: string;
+  timeout?: number;
 }
 
-export interface ApiClientOptions {
+export interface PGClientOptions {
   path: string;
   headers?: object | null;
   params?: string | null;
   body?: object | null;
 }
 
-export interface ApiResponse<T> {
+export interface PGClientResponse<T> {
   response_code: string;
   response_message: string;
+  data?: T | null;
+  error?: string;
+}
+
+export interface PGResponse<T> {
+  responseCode: string;
+  responseMessage: string;
   data?: T | null;
   error?: string;
 }

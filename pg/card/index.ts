@@ -1,4 +1,4 @@
-import { ApiClient } from "../api/apiClient";
+import { PGClient } from "../config/pgClient";
 import {
   CONTENT_TYPE_JSON,
   CURRENCY,
@@ -6,7 +6,7 @@ import {
   PAYMENT_METHOD,
 } from "../util/constant";
 import { generateAuth, generateSignature } from "../util/helper";
-import { ApiResponse } from "../util/type";
+import { PGResponse } from "../util/type";
 import {
   mapAddressDetails,
   mapCardDetails,
@@ -14,20 +14,21 @@ import {
   mapItemDetails,
   mapPaymentDetails,
 } from "./utils/helper";
+import { cardResponseConstructor } from "./utils/response";
 import { BodyCharge, RequestCharge, ResponseDataCharge } from "./utils/type";
 
 export class Card {
-  private apiClient: ApiClient;
+  private pgClient: PGClient;
 
-  constructor(apiClient: ApiClient) {
-    this.apiClient = apiClient;
+  constructor(pgClient: PGClient) {
+    this.pgClient = pgClient;
   }
 
   private getRequestHeaders(externalId: string, orderId: string) {
-    const apiConfig = this.apiClient.apiConfig;
+    const pgConfig = this.pgClient.pgConfig;
 
-    const auth = generateAuth(apiConfig.merchantId, apiConfig.secretUnboundId);
-    const signature = generateSignature(externalId, orderId, apiConfig.hashKey);
+    const auth = generateAuth(pgConfig.merchantId, pgConfig.secretUnboundId);
+    const signature = generateSignature(externalId, orderId, pgConfig.hashKey);
     const header = {
       "Content-Type": CONTENT_TYPE_JSON,
       Authorization: auth,
@@ -35,11 +36,13 @@ export class Card {
       "x-version": MIS_VERSION_3,
     };
 
-    this.apiClient.setOptionHeaders(header);
+    this.pgClient.setOptionHeaders(header);
   }
 
-  charge(request: RequestCharge): Promise<ApiResponse<ResponseDataCharge>> {
-    this.apiClient.setOptionPath("/card-v2/v1/charge");
+  async charge(
+    request: RequestCharge,
+  ): Promise<PGResponse<ResponseDataCharge>> {
+    this.pgClient.setOptionPath("/card-v2/v1/charge");
 
     const cardDetails = mapCardDetails(request.cardDetails);
     const paymentDetails = mapPaymentDetails(request);
@@ -74,19 +77,23 @@ export class Card {
       body.shipping_address = shippingAddress;
     }
 
-    this.apiClient.setOptionBody(body);
+    this.pgClient.setOptionBody(body);
     this.getRequestHeaders(request.externalId, request.orderId);
 
-    return new Promise((resolve, reject) => {
-      this.apiClient
-        .post<ResponseDataCharge>()
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    try {
+      const clientResponse = await this.pgClient.post<ResponseDataCharge>();
+      if (clientResponse.error || !clientResponse.data) {
+        throw clientResponse;
+      }
+      const constructor =
+        cardResponseConstructor<ResponseDataCharge>(clientResponse);
+      const response = constructor.getCharge().build();
+      return response;
+    } catch (err) {
+      const constructor = cardResponseConstructor<ResponseDataCharge>(err);
+      const response = constructor.getError().build();
+      return response;
+    }
   }
 
   // todo: add other method here
