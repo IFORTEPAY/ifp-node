@@ -1,5 +1,6 @@
 import {PGResponseConstructor} from "../../util/response";
 import {PGClientResponse} from "../../util/type";
+import {ResponseDataCharge} from "./type";
 
 export class CardResponse<T> extends PGResponseConstructor<T> {
 	constructor(res: PGClientResponse<T>) {
@@ -11,11 +12,21 @@ export class CardResponse<T> extends PGResponseConstructor<T> {
 			return this;
 		}
 
+		const data: ResponseDataCharge = {
+			html: "",
+			link: "",
+		};
+
 		const clientData = this.responseClient.data;
 		if (typeof clientData === "object" && "html" in clientData) {
-			this.response.data = clientData;
+			data.html = clientData.html as string;
 		}
 
+		if (typeof clientData === "object" && "link" in clientData) {
+			data.link = clientData.link as string;
+		}
+
+		this.response.data = data as T;
 		return this;
 	}
 }
