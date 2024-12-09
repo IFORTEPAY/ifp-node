@@ -1,0 +1,4 @@
+export const PAYMENT_MODE = {
+	CLOSE: "CLOSE",
+	INSTALLMENT: "INSTALLMENT",
+};
