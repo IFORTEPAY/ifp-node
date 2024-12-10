@@ -7,7 +7,7 @@ import {
 } from "../util/constant";
 import {generateAuth, generateSignature} from "../util/helper";
 import {PGResponse} from "../util/type";
-import {PAYMENT_MODE} from "./utils/constant";
+import {PATH, PAYMENT_MODE} from "./utils/constant";
 import {
 	mapAddressDetails,
 	mapCardDetails,
@@ -66,7 +66,7 @@ export class Card {
 	async charge(
 		request: RequestCharge
 	): Promise<PGResponse<ResponseDataCharge>> {
-		this.pgClient.setOptionPath("/card-v2/v1/charge");
+		this.pgClient.setOptionPath(PATH.CHARGE);
 
 		const cardDetails = mapCardDetails(request.cardDetails);
 		const paymentDetails = mapPaymentDetails(request);
