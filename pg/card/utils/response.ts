@@ -17,16 +17,18 @@ export class CardResponse<T> extends PGResponseConstructor<T> {
 			link: "",
 		};
 
-		const clientData = this.responseClient.data;
-		if (typeof clientData === "object" && "html" in clientData) {
-			data.html = clientData.html as string;
+		const clientDataParsed = this.responseClient.data as unknown;
+		const clientData = clientDataParsed as ResponseDataCharge;
+		if (clientData && clientData.html) {
+			data.html = clientData.html;
 		}
 
-		if (typeof clientData === "object" && "link" in clientData) {
-			data.link = clientData.link as string;
+		if (clientData && clientData.link) {
+			data.link = clientData.link;
 		}
 
-		this.response.data = data as T;
+		const dataParsed = data as unknown;
+		this.response.data = dataParsed as T;
 		return this;
 	}
 }

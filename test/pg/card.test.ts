@@ -68,7 +68,7 @@ describe("Card test", () => {
 
 		expect(pgClient.post).toHaveBeenCalledTimes(1);
 		expect(resp.data).toBeDefined();
-		expect(resp.data.html).toBe(RESPONSE_CARD_CHARGE.HTML);
+		expect(resp.data?.html).toBe(RESPONSE_CARD_CHARGE.HTML);
 	});
 
 	it("Should successfully charge with return value link", async () => {
@@ -92,7 +92,7 @@ describe("Card test", () => {
 
 		expect(pgClient.post).toHaveBeenCalledTimes(2);
 		expect(resp.data).toBeDefined();
-		expect(resp.data.link).toBe(RESPONSE_CARD_CHARGE.LINK);
+		expect(resp.data?.link).toBe(RESPONSE_CARD_CHARGE.LINK);
 	});
 
 	// todo: add other methods here
