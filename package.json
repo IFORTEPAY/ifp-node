@@ -6,6 +6,7 @@
   "typings": "./index.d.ts",
   "files": [
     "pg/**",
+    "docs/**",
     "README.md",
     "package.json",
     "index.js",
