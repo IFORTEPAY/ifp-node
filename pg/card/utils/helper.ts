@@ -4,12 +4,14 @@ import {
 	BodyCustomerDetails,
 	BodyItemDetails,
 	BodyPaymentDetails,
+	BodyPaymentOptions,
 	BodyTokenDetails,
 	RequestAddressDetails,
 	RequestCardDetails,
 	RequestCharge,
 	RequestCustomerDetails,
 	RequestItemDetails,
+	RequestPaymentOptions,
 	RequestTokenDetails,
 } from "./type";
 
@@ -41,9 +43,6 @@ export const mapPaymentDetails = (
 		amount: request.amount,
 		transaction_description: request.description,
 	};
-	if (request.expired) {
-		result.expired_time = request.expired;
-	}
 	return result;
 };
 
@@ -91,6 +90,25 @@ export const mapAddressDetails = (
 	}
 	if (request.phone) {
 		result.phone = request.phone;
+	}
+	return result;
+};
+
+export const mapPaymentOptions = (
+	request: RequestPaymentOptions
+): BodyPaymentOptions => {
+	const result: BodyPaymentOptions = {};
+	if (request.useRewards) {
+		result.use_rewards = request.useRewards;
+	}
+	if (request.campaignCode) {
+		result.campaign_code = request.campaignCode;
+	}
+	if (request.tenor) {
+		result.tenor = request.tenor;
+	}
+	if (request.ruleCode) {
+		result.rule_code = request.ruleCode;
 	}
 	return result;
 };

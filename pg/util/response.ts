@@ -10,7 +10,7 @@ export class PGResponseConstructor<T> {
 
 	private set(res: PGClientResponse<T>) {
 		if (!res || typeof res !== "object") {
-			const internalError = sendInternalServerError<T>(
+			const internalError = sendSystemError<T>(
 				Error("invalid response client")
 			);
 			this.responseClient = internalError;
@@ -38,10 +38,10 @@ export class PGResponseConstructor<T> {
 	}
 }
 
-export function sendInternalServerError<T>(err: Error): PGClientResponse<T> {
+export function sendSystemError<T>(err: Error): PGClientResponse<T> {
 	return {
 		response_code: "98",
-		response_message: "internal server error",
+		response_message: "SystemError",
 		error: err.message,
 	};
 }

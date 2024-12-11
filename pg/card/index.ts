@@ -14,6 +14,7 @@ import {
 	mapCustomerDetails,
 	mapItemDetails,
 	mapPaymentDetails,
+	mapPaymentOptions,
 } from "./utils/helper";
 import {cardResponseConstructor} from "./utils/response";
 import {
@@ -99,6 +100,10 @@ export class Card {
 		if (request.shippingAddress) {
 			const shippingAddress = mapAddressDetails(request.shippingAddress);
 			body.shipping_address = shippingAddress;
+		}
+
+		if (request.paymentOptions) {
+			body.payment_options = mapPaymentOptions(request.paymentOptions);
 		}
 
 		if (request.additionalData) {

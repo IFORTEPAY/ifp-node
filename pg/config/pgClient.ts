@@ -1,6 +1,6 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from "axios";
 import {BASE_URL} from "../util/constant";
-import {sendInternalServerError} from "../util/response";
+import {sendSystemError} from "../util/response";
 import {PGConfig} from "./pgConfig";
 import {PGClientOptions, PGClientResponse} from "../util/type";
 
@@ -47,7 +47,7 @@ export class PGClient {
 			if (err instanceof AxiosError && err.response) {
 				return err.response.data;
 			}
-			return sendInternalServerError<T>(err as Error);
+			return sendSystemError<T>(err as Error);
 		}
 	}
 

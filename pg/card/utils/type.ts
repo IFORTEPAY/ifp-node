@@ -39,6 +39,13 @@ export interface RequestItemDetails {
 	description?: string;
 }
 
+export interface RequestPaymentOptions {
+	useRewards?: boolean;
+	campaignCode?: string;
+	tenor?: number;
+	ruleCode?: string;
+}
+
 export interface RequestCharge {
 	externalId: string;
 	orderId: string;
@@ -47,7 +54,6 @@ export interface RequestCharge {
 	paymentChannel: string;
 	amount: number;
 	description: string;
-	expired?: string;
 	cardDetails: RequestCardDetails | RequestTokenDetails;
 	itemDetails?: RequestItemDetails[];
 	customerDetails: RequestCustomerDetails;
@@ -58,7 +64,7 @@ export interface RequestCharge {
 	responseType?: ResponseTypeCharge;
 	additionalData?: string;
 	storeToken?: boolean;
-	// todo: add for intallment and promo?
+	paymentOptions?: RequestPaymentOptions;
 }
 
 export interface BodyCardDetails {
@@ -77,7 +83,6 @@ export interface BodyTokenDetails {
 export interface BodyPaymentDetails {
 	amount: number;
 	transaction_description: string;
-	expired_time?: string;
 }
 
 export interface BodyCustomerDetails {
@@ -104,6 +109,13 @@ export interface BodyItemDetails {
 	description?: string;
 }
 
+export interface BodyPaymentOptions {
+	use_rewards?: boolean;
+	campaign_code?: string;
+	tenor?: number;
+	rule_code?: string;
+}
+
 export interface BodyCharge {
 	external_id: string;
 	order_id: string;
@@ -121,7 +133,7 @@ export interface BodyCharge {
 	return_url: string;
 	additional_data?: string;
 	store_token?: boolean;
-	// todo: add for intallment and promo?
+	payment_options?: BodyPaymentOptions;
 }
 
 export interface ResponseDataCharge {
