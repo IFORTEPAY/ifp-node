@@ -1,6 +1,6 @@
 import {PGConfig} from "../../pg/config/pgConfig";
 import {DEFAULT_CLIENT_TIMEOUT} from "../../pg/util/constant";
-import {MERCHANT_TEST_1} from "./contant";
+import {MERCHANT_TEST_1} from "./constant";
 
 describe("PGConfig Test", () => {
 	it("Should use the input value", () => {

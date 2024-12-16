@@ -1,7 +1,7 @@
 import PG from "../../pg";
 import {PGClient} from "../../pg/config/pgClient";
 import {PGClientResponse} from "../../pg/util/type";
-import {MERCHANT_TEST_1, REQUEST_CARD_CHARGE} from "./contant";
+import {MERCHANT_TEST_1, REQUEST_CARD_CHARGE} from "./constant";
 
 jest.spyOn(PGClient.prototype, "post").mockImplementation(<
 	T,

@@ -13,7 +13,7 @@ import {
 	MERCHANT_TEST_1,
 	REQUEST_CARD_CHARGE,
 	RESPONSE_CARD_CHARGE,
-} from "./contant";
+} from "./constant";
 
 const pgConfig = new PGConfig({
 	merchantId: MERCHANT_TEST_1.ID,
