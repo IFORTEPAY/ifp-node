@@ -6,7 +6,11 @@
     "moduleResolution": "node",
     "outDir": "dist",
     "lib": [
+      "es5",
+      "es6",
       "ES2020",
+      "DOM",
+      "ESNext",
     ],
     "typeRoots": [
       "node_modules/@types"

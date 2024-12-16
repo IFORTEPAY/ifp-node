@@ -7,7 +7,9 @@ To start using this product, you need to initiate the PG class from imported iFo
 Here is the example how to use it
 
 ```typescript
-const iFortepay = require("ifp-node");
+const {iFortepay} = require("ifp-node");
+
+// extract iFortepay's features
 const {PG} = iFortepay;
 
 const {
