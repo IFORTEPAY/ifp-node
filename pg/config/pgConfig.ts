@@ -38,8 +38,8 @@ export class PGConfig {
 			this.subMerchantId = options.subMerchantId;
 		}
 
-		this.merchantId = options.merchantId;
-		this.secretUnboundId = options.secretUnboundId;
-		this.hashKey = options.hashKey;
+		this.merchantId = options?.merchantId;
+		this.secretUnboundId = options?.secretUnboundId;
+		this.hashKey = options?.hashKey;
 	}
 }

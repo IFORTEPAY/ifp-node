@@ -3,6 +3,9 @@ import {PGClient} from "./config/pgClient";
 import {PGConfig} from "./config/pgConfig";
 import {PGConfigOptions} from "./util/type";
 
+/**
+ * @description iFortepay's Payment Gateway
+ */
 class PG {
 	private pgConfig: PGConfig;
 	private pgClient: PGClient;

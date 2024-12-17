@@ -26,7 +26,7 @@ TypeScript support is included in this package.
 To use the SDK features, you can import the package and then destruct the imported variable to choose which product do you want to use.
 
 ```typescript
-const iFortepay = require("ifp-node");
+const {iFortepay} = require("ifp-node");
 const {PG} = iFortepay;
 
 // your codes...
@@ -36,4 +36,4 @@ const {PG} = iFortepay;
 
 Find detailed API information and examples for each of our product’s by clicking the links below,
 
-- [Payment Gateway (PG)](./docs/pg/PG.md)
+- [Payment Gateway (PG)](docs/pg/PG.md)

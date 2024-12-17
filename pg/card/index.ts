@@ -18,13 +18,19 @@ import {
 } from "./utils/helper";
 import {cardResponseConstructor} from "./utils/response";
 import {
+	BodyCardDetails,
 	BodyCharge,
+	BodyCustomerDetails,
+	BodyTokenDetails,
 	HeaderCard,
 	RequestCharge,
 	RequestHeaderCard,
 	ResponseDataCharge,
 } from "./utils/type";
 
+/**
+ * @description Card Payment method endpoint features
+ */
 export class Card {
 	private pgClient: PGClient;
 
@@ -32,13 +38,17 @@ export class Card {
 		this.pgClient = pgClient;
 	}
 
+	/**
+	 * @description get headers for client request
+	 * @param {RequestHeaderCard} req
+	 */
 	private getRequestHeaders(req: RequestHeaderCard) {
 		const pgConfig = this.pgClient.pgConfig;
 
 		const auth = generateAuth(pgConfig.merchantId, pgConfig.secretUnboundId);
 		const signature = generateSignature(
-			req.externalId,
-			req.orderId,
+			req?.externalId,
+			req?.orderId,
 			pgConfig.hashKey
 		);
 		const header: HeaderCard = {
@@ -69,9 +79,25 @@ export class Card {
 	): Promise<PGResponse<ResponseDataCharge>> {
 		this.pgClient.setOptionPath(PATH.CHARGE);
 
-		const cardDetails = mapCardDetails(request.cardDetails);
 		const paymentDetails = mapPaymentDetails(request);
-		const customerDetails = mapCustomerDetails(request.customerDetails);
+
+		let cardDetails: BodyCardDetails | BodyTokenDetails = {
+			token: "",
+			card_cvn: "",
+		};
+		if (request.cardDetails) {
+			cardDetails = mapCardDetails(request.cardDetails);
+		}
+
+		let customerDetails: BodyCustomerDetails = {
+			full_name: "",
+			phone: "",
+			email: "",
+			ip_address: "",
+		};
+		if (request.customerDetails) {
+			customerDetails = mapCustomerDetails(request.customerDetails);
+		}
 
 		const body: BodyCharge = {
 			external_id: request.externalId,

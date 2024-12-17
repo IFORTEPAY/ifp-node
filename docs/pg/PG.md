@@ -50,6 +50,6 @@ Card.charge({
 
 Find the detail and example of each payment method API that supported by PG product by clicking the link below,
 
-- [Card](./card/CARD.md)
+- [Card](card/CARD.md)
 
 [BACK TO README](../../README.md)

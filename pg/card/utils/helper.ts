@@ -20,18 +20,18 @@ export const mapCardDetails = (
 ): BodyCardDetails | BodyTokenDetails => {
 	if ("token" in request) {
 		const result: BodyTokenDetails = {
-			token: request.token,
-			card_cvn: request.cvv,
+			token: request?.token,
+			card_cvn: request?.cvv,
 		};
 		return result;
 	}
 
 	const result: BodyCardDetails = {
-		card_holder_name: request.name,
-		card_number: request.number,
-		card_expired_month: request.expMonth,
-		card_expired_year: request.expYear,
-		card_cvn: request.cvv,
+		card_holder_name: request?.name,
+		card_number: request?.number,
+		card_expired_month: request?.expMonth,
+		card_expired_year: request?.expYear,
+		card_cvn: request?.cvv,
 	};
 	return result;
 };
@@ -39,9 +39,12 @@ export const mapCardDetails = (
 export const mapPaymentDetails = (
 	request: RequestCharge
 ): BodyPaymentDetails => {
+	if (!request) {
+		return {amount: 0, transaction_description: ""};
+	}
 	const result: BodyPaymentDetails = {
-		amount: request.amount,
-		transaction_description: request.description,
+		amount: request?.amount,
+		transaction_description: request?.description,
 	};
 	return result;
 };
@@ -50,10 +53,10 @@ export const mapCustomerDetails = (
 	request: RequestCustomerDetails
 ): BodyCustomerDetails => {
 	const result: BodyCustomerDetails = {
-		full_name: request.name,
-		phone: request.phone,
-		email: request.email,
-		ip_address: request.ipAddress,
+		full_name: request?.name,
+		phone: request?.phone,
+		email: request?.email,
+		ip_address: request?.ipAddress,
 	};
 	return result;
 };
