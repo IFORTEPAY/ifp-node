@@ -7,7 +7,9 @@ To start using this product, you need to initiate the PG class from imported iFo
 Here is the example how to use it
 
 ```typescript
-const iFortepay = require("ifp-node");
+const {iFortepay} = require("ifp-node");
+
+// extract iFortepay's features
 const {PG} = iFortepay;
 
 const {
@@ -48,6 +50,6 @@ Card.charge({
 
 Find the detail and example of each payment method API that supported by PG product by clicking the link below,
 
-- [Card](./card/CARD.md)
+- [Card](card/CARD.md)
 
 [BACK TO README](../../README.md)

@@ -1,7 +1,5 @@
 import PG from "./pg";
 
-const iFortepay = {
+export const iFortepay = {
 	PG,
 };
-
-export default iFortepay;

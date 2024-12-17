@@ -22,24 +22,24 @@ export class PGConfig {
 	}
 
 	private set(options: PGConfigOptions) {
-		if (options.isProduction) {
+		if (options?.isProduction) {
 			this.isProduction = options.isProduction;
 		}
 
-		if (options.isDebugLog) {
+		if (options?.isDebugLog) {
 			this.isDebugLog = options.isDebugLog;
 		}
 
-		if (options.timeout && options.timeout > 0) {
+		if (options?.timeout && options.timeout > 0) {
 			this.timeout = options.timeout;
 		}
 
-		if (options.subMerchantId) {
+		if (options?.subMerchantId) {
 			this.subMerchantId = options.subMerchantId;
 		}
 
-		this.merchantId = options.merchantId;
-		this.secretUnboundId = options.secretUnboundId;
-		this.hashKey = options.hashKey;
+		this.merchantId = options?.merchantId;
+		this.secretUnboundId = options?.secretUnboundId;
+		this.hashKey = options?.hashKey;
 	}
 }
