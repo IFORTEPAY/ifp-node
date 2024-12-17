@@ -85,7 +85,7 @@ export class Card {
 			token: "",
 			card_cvn: "",
 		};
-		if (request.cardDetails) {
+		if (request?.cardDetails) {
 			cardDetails = mapCardDetails(request.cardDetails);
 		}
 
@@ -95,48 +95,48 @@ export class Card {
 			email: "",
 			ip_address: "",
 		};
-		if (request.customerDetails) {
+		if (request?.customerDetails) {
 			customerDetails = mapCustomerDetails(request.customerDetails);
 		}
 
 		const body: BodyCharge = {
-			external_id: request.externalId,
-			order_id: request.orderId,
-			currency: request.currency ?? CURRENCY.IDR,
+			external_id: request?.externalId,
+			order_id: request?.orderId,
+			currency: request?.currency ?? CURRENCY.IDR,
 			payment_method: PAYMENT_METHOD.CARD,
-			payment_channel: request.paymentChannel,
-			payment_mode: request.paymentMode ?? PAYMENT_MODE.CLOSE,
-			callback_url: request.callbackUrl,
-			return_url: request.returnUrl,
+			payment_channel: request?.paymentChannel,
+			payment_mode: request?.paymentMode ?? PAYMENT_MODE.CLOSE,
+			callback_url: request?.callbackUrl,
+			return_url: request?.returnUrl,
 			card_details: cardDetails,
 			payment_details: paymentDetails,
 			customer_details: customerDetails,
 		};
 
-		if (request.itemDetails && request.itemDetails.length > 0) {
+		if (request?.itemDetails && request.itemDetails.length > 0) {
 			const requestItem = mapItemDetails(request.itemDetails);
 			body.item_details = requestItem;
 		}
 
-		if (request.billingAddress) {
+		if (request?.billingAddress) {
 			const billingAddress = mapAddressDetails(request.billingAddress);
 			body.billing_address = billingAddress;
 		}
 
-		if (request.shippingAddress) {
+		if (request?.shippingAddress) {
 			const shippingAddress = mapAddressDetails(request.shippingAddress);
 			body.shipping_address = shippingAddress;
 		}
 
-		if (request.paymentOptions) {
+		if (request?.paymentOptions) {
 			body.payment_options = mapPaymentOptions(request.paymentOptions);
 		}
 
-		if (request.additionalData) {
+		if (request?.additionalData) {
 			body.additional_data = request.additionalData;
 		}
 
-		if (typeof request.storeToken == "undefined") {
+		if (typeof request?.storeToken == "undefined") {
 			body.store_token = true;
 		} else {
 			body.store_token = request.storeToken;
@@ -145,11 +145,11 @@ export class Card {
 		this.pgClient.setOptionBody(body);
 
 		const requestHeader: RequestHeaderCard = {
-			externalId: request.externalId,
-			orderId: request.orderId,
+			externalId: request?.externalId,
+			orderId: request?.orderId,
 		};
 
-		if (request.responseType) {
+		if (request?.responseType) {
 			requestHeader.responseType = request.responseType;
 		}
 
