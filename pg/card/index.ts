@@ -86,20 +86,12 @@ export class Card {
 
 		const paymentDetails = mapPaymentDetails(request);
 
-		let cardDetails: BodyCardDetails | BodyTokenDetails = {
-			token: "",
-			card_cvn: "",
-		};
+		let cardDetails = {} as BodyTokenDetails | BodyCardDetails;
 		if (request?.cardDetails) {
 			cardDetails = mapCardDetails(request.cardDetails);
 		}
 
-		let customerDetails: BodyCustomerDetails = {
-			full_name: "",
-			phone: "",
-			email: "",
-			ip_address: "",
-		};
+		let customerDetails = {} as BodyCustomerDetails;
 		if (request?.customerDetails) {
 			customerDetails = mapCustomerDetails(request.customerDetails);
 		}
@@ -195,24 +187,15 @@ export class Card {
 	): Promise<PGResponse<ResponseDataChargeDirect>> {
 		const path = mapPathChargeDirect(request?.paymentChannel);
 		this.pgClient.setOptionPath(path);
-		console.log("PATH: ", path);
 
 		const paymentDetails = mapPaymentDetails(request);
 
-		let cardDetails: BodyCardDetails | BodyTokenDetails = {
-			token: "",
-			card_cvn: "",
-		};
+		let cardDetails = {} as BodyTokenDetails | BodyCardDetails;
 		if (request?.cardDetails) {
 			cardDetails = mapCardDetails(request.cardDetails);
 		}
 
-		let customerDetails: BodyCustomerDetails = {
-			full_name: "",
-			phone: "",
-			email: "",
-			ip_address: "",
-		};
+		let customerDetails = {} as BodyCustomerDetails;
 		if (request?.customerDetails) {
 			customerDetails = mapCustomerDetails(request.customerDetails);
 		}

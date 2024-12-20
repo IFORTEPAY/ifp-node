@@ -137,20 +137,20 @@ export interface BodyCharge {
 }
 
 export interface ResponseDataCharge {
-	html: string;
-	link: string;
+	html?: string;
+	link?: string;
 }
 
-export interface RequestChargeDirect extends RequestCharge {}
+export interface RequestChargeDirect extends Omit<RequestCharge, "responseType"> {}
 
 export interface BodyChargeDirect extends BodyCharge {}
 
 export interface TransactionDataChargeDirectJSON {
-	external_id: string;
-	receipt_no: string;
-	order_id: string;
-	transaction_id: string;
-	approval_code: string;
+	external_id?: string;
+	receipt_no?: string;
+	order_id?: string;
+	transaction_id?: string;
+	approval_code?: string;
 	// question: what type is eci?
 }
 export interface ResponseDataChargeDirectJSON {
@@ -158,15 +158,15 @@ export interface ResponseDataChargeDirectJSON {
 	status: string;
 	transaction_code: string;
 	transaction_description: string;
-	transaction_data: TransactionDataChargeDirectJSON;
+	transaction_data?: TransactionDataChargeDirectJSON;
 }
 
 export interface TransactionDataChargeDirect {
-	externalId: string;
-	receiptNo: string;
-	orderId: string;
-	transactionId: string;
-	approvalCode: string;
+	externalId?: string;
+	receiptNo?: string;
+	orderId?: string;
+	transactionId?: string;
+	approvalCode?: string;
 	// question: what type is eci?
 }
 export interface ResponseDataChargeDirect {
@@ -174,7 +174,7 @@ export interface ResponseDataChargeDirect {
 	status: string;
 	transactionCode: string;
 	transactionDescription: string;
-	transactionData: TransactionDataChargeDirect;
+	transactionData?: TransactionDataChargeDirect;
 }
 
 export interface RequestHeaderCard {

@@ -4,6 +4,7 @@ import {
 	ResponseDataCharge,
 	ResponseDataChargeDirect,
 	ResponseDataChargeDirectJSON,
+	TransactionDataChargeDirect,
 } from "./type";
 
 export class CardResponse<T, U> extends PGResponseConstructor<T, U> {
@@ -16,18 +17,15 @@ export class CardResponse<T, U> extends PGResponseConstructor<T, U> {
 			return this;
 		}
 
-		const data: ResponseDataCharge = {
-			html: "",
-			link: "",
-		};
+		const data = {} as ResponseDataCharge;
 
 		const clientDataParsed = this.responseClient.data as unknown;
 		const clientData = clientDataParsed as ResponseDataCharge;
-		if (clientData && clientData.html) {
+		if (clientData?.html) {
 			data.html = clientData.html;
 		}
 
-		if (clientData && clientData.link) {
+		if (clientData?.link) {
 			data.link = clientData.link;
 		}
 
@@ -41,19 +39,7 @@ export class CardResponse<T, U> extends PGResponseConstructor<T, U> {
 			return this;
 		}
 
-		const data: ResponseDataChargeDirect = {
-			token: "",
-			status: "",
-			transactionCode: "",
-			transactionDescription: "",
-			transactionData: {
-				externalId: "",
-				receiptNo: "",
-				orderId: "",
-				transactionId: "",
-				approvalCode: "",
-			},
-		};
+		const data = {} as ResponseDataChargeDirect;
 
 		const clientDataParsed = this.responseClient.data as unknown;
 		const clientData = clientDataParsed as ResponseDataChargeDirectJSON;
@@ -73,26 +59,31 @@ export class CardResponse<T, U> extends PGResponseConstructor<T, U> {
 			data.transactionDescription = clientData.transaction_description;
 		}
 
+		const transactionData = {} as TransactionDataChargeDirect;
+
 		if (clientData?.transaction_data?.external_id) {
-			data.transactionData.externalId = clientData.transaction_data.external_id;
+			transactionData.externalId = clientData.transaction_data.external_id;
 		}
 
 		if (clientData?.transaction_data?.receipt_no) {
-			data.transactionData.receiptNo = clientData.transaction_data.receipt_no;
+			transactionData.receiptNo = clientData.transaction_data.receipt_no;
 		}
 
 		if (clientData?.transaction_data?.order_id) {
-			data.transactionData.orderId = clientData.transaction_data.order_id;
+			transactionData.orderId = clientData.transaction_data.order_id;
 		}
 
 		if (clientData?.transaction_data?.transaction_id) {
-			data.transactionData.transactionId =
+			transactionData.transactionId =
 				clientData.transaction_data.transaction_id;
 		}
 
 		if (clientData?.transaction_data?.approval_code) {
-			data.transactionData.approvalCode =
-				clientData.transaction_data.approval_code;
+			transactionData.approvalCode = clientData.transaction_data.approval_code;
+		}
+
+		if (transactionData) {
+			data.transactionData = transactionData;
 		}
 
 		const dataParsed = data as unknown;
