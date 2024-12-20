@@ -141,7 +141,8 @@ export interface ResponseDataCharge {
 	link?: string;
 }
 
-export interface RequestChargeDirect extends Omit<RequestCharge, "responseType"> {}
+export interface RequestChargeDirect
+	extends Omit<RequestCharge, "responseType"> {}
 
 export interface BodyChargeDirect extends BodyCharge {}
 
