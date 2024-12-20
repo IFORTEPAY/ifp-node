@@ -13,6 +13,7 @@ import {
 	mapCardDetails,
 	mapCustomerDetails,
 	mapItemDetails,
+	mapPathChargeDirect,
 	mapPaymentDetails,
 	mapPaymentOptions,
 } from "./utils/helper";
@@ -20,12 +21,16 @@ import {cardResponseConstructor} from "./utils/response";
 import {
 	BodyCardDetails,
 	BodyCharge,
+	BodyChargeDirect,
 	BodyCustomerDetails,
 	BodyTokenDetails,
 	HeaderCard,
 	RequestCharge,
+	RequestChargeDirect,
 	RequestHeaderCard,
 	ResponseDataCharge,
+	ResponseDataChargeDirect,
+	ResponseDataChargeDirectJSON,
 } from "./utils/type";
 
 /**
@@ -164,12 +169,127 @@ export class Card {
 			if (clientResponse.error || !clientResponse.data) {
 				throw clientResponse;
 			}
-			const constructor =
-				cardResponseConstructor<ResponseDataCharge>(clientResponse);
+			const constructor = cardResponseConstructor<
+				ResponseDataCharge,
+				ResponseDataCharge
+			>(clientResponse);
 			const response = constructor.getCharge().build();
 			return response;
 		} catch (err) {
-			const constructor = cardResponseConstructor<ResponseDataCharge>(err);
+			const constructor = cardResponseConstructor<
+				ResponseDataCharge,
+				ResponseDataCharge
+			>(err);
+			const response = constructor.getError().build();
+			return response;
+		}
+	}
+
+	/**
+	 * @description direct payment non 3DS without using OTP verification
+	 * @param {RequestChargeDirect} request
+	 * @returns {Promise<PGResponse<ResponseDataChargeDirect>>}
+	 */
+	async chargeDirect(
+		request: RequestChargeDirect
+	): Promise<PGResponse<ResponseDataChargeDirect>> {
+		const path = mapPathChargeDirect(request?.paymentChannel);
+		this.pgClient.setOptionPath(path);
+		console.log("PATH: ", path);
+
+		const paymentDetails = mapPaymentDetails(request);
+
+		let cardDetails: BodyCardDetails | BodyTokenDetails = {
+			token: "",
+			card_cvn: "",
+		};
+		if (request?.cardDetails) {
+			cardDetails = mapCardDetails(request.cardDetails);
+		}
+
+		let customerDetails: BodyCustomerDetails = {
+			full_name: "",
+			phone: "",
+			email: "",
+			ip_address: "",
+		};
+		if (request?.customerDetails) {
+			customerDetails = mapCustomerDetails(request.customerDetails);
+		}
+
+		const body: BodyChargeDirect = {
+			external_id: request?.externalId,
+			order_id: request?.orderId,
+			currency: request?.currency ?? CURRENCY.IDR,
+			payment_method: PAYMENT_METHOD.CARD,
+			payment_channel: request?.paymentChannel,
+			payment_mode: request?.paymentMode ?? PAYMENT_MODE.CLOSE,
+			callback_url: request?.callbackUrl,
+			return_url: request?.returnUrl,
+			card_details: cardDetails,
+			payment_details: paymentDetails,
+			customer_details: customerDetails,
+		};
+
+		if (request?.itemDetails && request.itemDetails.length > 0) {
+			const requestItem = mapItemDetails(request.itemDetails);
+			body.item_details = requestItem;
+		}
+
+		if (request?.billingAddress) {
+			const billingAddress = mapAddressDetails(request.billingAddress);
+			body.billing_address = billingAddress;
+		}
+
+		if (request?.shippingAddress) {
+			const shippingAddress = mapAddressDetails(request.shippingAddress);
+			body.shipping_address = shippingAddress;
+		}
+
+		if (request?.paymentOptions) {
+			body.payment_options = mapPaymentOptions(request.paymentOptions);
+		}
+
+		if (request?.additionalData) {
+			body.additional_data = request.additionalData;
+		}
+
+		if (typeof request?.storeToken == "undefined") {
+			body.store_token = true;
+		} else {
+			body.store_token = request.storeToken;
+		}
+
+		this.pgClient.setOptionBody(body);
+
+		const requestHeader: RequestHeaderCard = {
+			externalId: request?.externalId,
+			orderId: request?.orderId,
+		};
+
+		if (this.pgClient.pgConfig.subMerchantId) {
+			requestHeader.subMerchantId = this.pgClient.pgConfig.subMerchantId;
+		}
+
+		this.getRequestHeaders(requestHeader);
+
+		try {
+			const clientResponse =
+				await this.pgClient.post<ResponseDataChargeDirectJSON>();
+			if (clientResponse.error || !clientResponse.data) {
+				throw clientResponse;
+			}
+			const constructor = cardResponseConstructor<
+				ResponseDataChargeDirectJSON,
+				ResponseDataChargeDirect
+			>(clientResponse);
+			const response = constructor.getChargeDirect().build();
+			return response;
+		} catch (err) {
+			const constructor = cardResponseConstructor<
+				ResponseDataChargeDirectJSON,
+				ResponseDataChargeDirect
+			>(err);
 			const response = constructor.getError().build();
 			return response;
 		}

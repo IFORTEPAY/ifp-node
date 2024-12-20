@@ -14,6 +14,7 @@ import {
 	RequestPaymentOptions,
 	RequestTokenDetails,
 } from "./type";
+import {PATH, PAYMENT_CHANNEL} from "./constant";
 
 export const mapCardDetails = (
 	request: RequestCardDetails | RequestTokenDetails
@@ -114,4 +115,12 @@ export const mapPaymentOptions = (
 		result.rule_code = request.ruleCode;
 	}
 	return result;
+};
+
+export const mapPathChargeDirect = (channel: string): string => {
+	const channelV1 = [PAYMENT_CHANNEL.BCAPG, PAYMENT_CHANNEL.CIMBPG];
+	if (channelV1.includes(channel?.toUpperCase())) {
+		return PATH.CHARGE_DIRECT_V1;
+	}
+	return PATH.CHARGE_DIRECT_V2;
 };

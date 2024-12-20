@@ -141,6 +141,42 @@ export interface ResponseDataCharge {
 	link: string;
 }
 
+export interface RequestChargeDirect extends RequestCharge {}
+
+export interface BodyChargeDirect extends BodyCharge {}
+
+export interface TransactionDataChargeDirectJSON {
+	external_id: string;
+	receipt_no: string;
+	order_id: string;
+	transaction_id: string;
+	approval_code: string;
+	// question: what type is eci?
+}
+export interface ResponseDataChargeDirectJSON {
+	token: string;
+	status: string;
+	transaction_code: string;
+	transaction_description: string;
+	transaction_data: TransactionDataChargeDirectJSON;
+}
+
+export interface TransactionDataChargeDirect {
+	externalId: string;
+	receiptNo: string;
+	orderId: string;
+	transactionId: string;
+	approvalCode: string;
+	// question: what type is eci?
+}
+export interface ResponseDataChargeDirect {
+	token: string;
+	status: string;
+	transactionCode: string;
+	transactionDescription: string;
+	transactionData: TransactionDataChargeDirect;
+}
+
 export interface RequestHeaderCard {
 	externalId: string;
 	orderId: string;
