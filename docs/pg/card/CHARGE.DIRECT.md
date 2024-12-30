@@ -97,27 +97,27 @@
 
 // failed example
 {
-  responseCode: '00',
-  responseMessage: 'Success',
+  responseCode: "00",
+  responseMessage: "Success",
   data: {
-    token: '9b1bb24e-8f98-4e7d-9a80-834e161bc083',
-    status: 'FAILED',
-    transactionCode: '1026',
-    transactionDescription: 'Invalid Card Type. The card number does not match with the, card type.',
+    token: "9b1bb24e-8f98-4e7d-9a80-834e161bc083",
+    status: "FAILED",
+    transactionCode: "1026",
+    transactionDescription: "Invalid Card Type. The card number does not match with the, card type.",
     transactionData: {
-      externalId: 'externalId0000031',
-      receiptNo: '3c6473ac1735528977',
-      orderId: 'orderId000000031',
-      transactionId: '3c6473ac-2806-4386-86ea-4012da139cbd'
+      externalId: "externalId0000031",
+      receiptNo: "3c6473ac1735528977",
+      orderId: "orderId000000031",
+      transactionId: "3c6473ac-2806-4386-86ea-4012da139cbd"
     }
   }
 }
 
 // error example
 {
-  responseCode: '98',
-  responseMessage: 'SystemError',
-  error: 'timeout of 1000ms exceeded'
+  responseCode: "98",
+  responseMessage: "SystemError",
+  error: "timeout of 1000ms exceeded"
 }
 ```
 
