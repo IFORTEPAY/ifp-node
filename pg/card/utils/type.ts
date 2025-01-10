@@ -152,7 +152,6 @@ export interface TransactionDataChargeDirectJSON {
 	order_id?: string;
 	transaction_id?: string;
 	approval_code?: string;
-	// question: what type is eci?
 }
 export interface ResponseDataChargeDirectJSON {
 	token: string;
@@ -168,7 +167,6 @@ export interface TransactionDataChargeDirect {
 	orderId?: string;
 	transactionId?: string;
 	approvalCode?: string;
-	// question: what type is eci?
 }
 export interface ResponseDataChargeDirect {
 	token: string;
