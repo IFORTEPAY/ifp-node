@@ -5,6 +5,9 @@ import {
 	BodyCharge,
 	HeaderCard,
 	RequestCharge,
+	ResponseDataChargeDirectJSON,
+	RequestChargeDirect,
+	BodyChargeDirect,
 } from "../../pg/card/utils/type";
 import {PGClient} from "../../pg/config/pgClient";
 import {PGConfig} from "../../pg/config/pgConfig";
@@ -12,7 +15,11 @@ import {PGClientResponse} from "../../pg/util/type";
 import {
 	MERCHANT_TEST_1,
 	REQUEST_CARD_CHARGE,
+	REQUEST_CARD_CHARGE_DIRECT_V1,
+	REQUEST_CARD_CHARGE_DIRECT_V2,
 	RESPONSE_CARD_CHARGE,
+	RESPONSE_CARD_CHARGE_DIRECT_V1,
+	RESPONSE_CARD_CHARGE_DIRECT_V2,
 } from "./constant";
 
 const pgConfig = new PGConfig({
@@ -48,6 +55,32 @@ const mockChargePost = jest
 			return resolve(result);
 		});
 	});
+
+const mockChargeDirectPost = jest
+	.fn()
+	.mockImplementation(
+		(): Promise<PGClientResponse<ResponseDataChargeDirectJSON>> => {
+			return new Promise((resolve) => {
+				let data = {} as ResponseDataChargeDirectJSON;
+
+				const path = pgClient.pgClientOptions.path;
+				if (path === PATH.CHARGE_DIRECT_V1) {
+					data = RESPONSE_CARD_CHARGE_DIRECT_V1;
+				}
+
+				if (path === PATH.CHARGE_DIRECT_V2) {
+					data = RESPONSE_CARD_CHARGE_DIRECT_V2;
+				}
+
+				const result: PGClientResponse<ResponseDataChargeDirectJSON> = {
+					response_code: "00",
+					response_message: "Success",
+					data: data,
+				};
+				return resolve(result);
+			});
+		}
+	);
 
 describe("Card test", () => {
 	/** METHOD CHARGE */
@@ -93,6 +126,50 @@ describe("Card test", () => {
 		expect(pgClient.post).toHaveBeenCalledTimes(2);
 		expect(resp.data).toBeDefined();
 		expect(resp.data?.link).toBe(RESPONSE_CARD_CHARGE.LINK);
+	});
+
+	/** METHOD CHARGE DIRECT */
+	it("Should successfully charge direct /v1", async () => {
+		pgClient.post = mockChargeDirectPost;
+		const card = new Card(pgClient);
+		const request: RequestChargeDirect = REQUEST_CARD_CHARGE_DIRECT_V1;
+		const resp = await card.chargeDirect(request);
+
+		expect(pgClient.pgClientOptions.path).toBe(PATH.CHARGE_DIRECT_V1);
+
+		const requestBodyClient = pgClient.pgClientOptions.body as BodyChargeDirect;
+		expect(pgClient.pgClientOptions.body).toBeDefined();
+		expect(requestBodyClient).toBeDefined();
+		expect(requestBodyClient.payment_channel).toBe(
+			REQUEST_CARD_CHARGE_DIRECT_V1.paymentChannel
+		);
+
+		expect(pgClient.post).toHaveBeenCalledTimes(1);
+		expect(resp.data).toBeDefined();
+		expect(resp.data?.transactionDescription).toBe(
+			RESPONSE_CARD_CHARGE_DIRECT_V1.transaction_description
+		);
+	});
+
+	it("Should successfully charge direct /v2", async () => {
+		const card = new Card(pgClient);
+		const request: RequestChargeDirect = REQUEST_CARD_CHARGE_DIRECT_V2;
+		const resp = await card.chargeDirect(request);
+
+		expect(pgClient.pgClientOptions.path).toBe(PATH.CHARGE_DIRECT_V2);
+
+		const requestBodyClient = pgClient.pgClientOptions.body as BodyChargeDirect;
+		expect(pgClient.pgClientOptions.body).toBeDefined();
+		expect(requestBodyClient).toBeDefined();
+		expect(requestBodyClient.payment_channel).toBe(
+			REQUEST_CARD_CHARGE_DIRECT_V2.paymentChannel
+		);
+
+		expect(pgClient.post).toHaveBeenCalledTimes(2);
+		expect(resp.data).toBeDefined();
+		expect(resp.data?.transactionDescription).toBe(
+			RESPONSE_CARD_CHARGE_DIRECT_V2.transaction_description
+		);
 	});
 
 	// todo: add other methods here

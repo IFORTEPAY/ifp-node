@@ -137,8 +137,43 @@ export interface BodyCharge {
 }
 
 export interface ResponseDataCharge {
-	html: string;
-	link: string;
+	html?: string;
+	link?: string;
+}
+
+export interface RequestChargeDirect
+	extends Omit<RequestCharge, "responseType"> {}
+
+export interface BodyChargeDirect extends BodyCharge {}
+
+export interface TransactionDataChargeDirectJSON {
+	external_id?: string;
+	receipt_no?: string;
+	order_id?: string;
+	transaction_id?: string;
+	approval_code?: string;
+}
+export interface ResponseDataChargeDirectJSON {
+	token: string;
+	status: string;
+	transaction_code: string;
+	transaction_description: string;
+	transaction_data?: TransactionDataChargeDirectJSON;
+}
+
+export interface TransactionDataChargeDirect {
+	externalId?: string;
+	receiptNo?: string;
+	orderId?: string;
+	transactionId?: string;
+	approvalCode?: string;
+}
+export interface ResponseDataChargeDirect {
+	token: string;
+	status: string;
+	transactionCode: string;
+	transactionDescription: string;
+	transactionData?: TransactionDataChargeDirect;
 }
 
 export interface RequestHeaderCard {

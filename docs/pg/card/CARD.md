@@ -62,4 +62,63 @@ card
 	});
 ```
 
+## Charge Direct
+
+Feature for API Direct Payment. Direct Payment is a Non 3D Secured transaction without using OTP verification.
+
+### Request and Response
+
+Go to this [page](CHARGE.DIRECT.md) to read the full detail about request and response for Charge Direct feature.
+
+### Usage Example
+
+```typescript
+// import package
+const iFortepay = require("ifp-node");
+const {PG} = iFortepay;
+
+// initiate PG
+const {
+	// list of payment methods...
+	Card,
+} = new PG({
+	merchantId: YOUR_MERCHANT_ID,
+	secretUnboundId: YOUR_SECRET_UNBOUND_ID,
+	hashKey: YOUR_HASH_KEY,
+});
+
+// use Card Charge Direct method
+card
+	.chargeDirect({
+		externalId: "uniqueExternalId000001",
+		orderId: "orderId000000001",
+		paymentMode: "CLOSE",
+		paymentChannel: "BCAPG",
+		amount: 15000,
+		cardDetails: {
+			name: "JOHN",
+			number: "1889800000001234",
+			expMonth: "01",
+			expYear: "2077",
+			cvv: "100",
+		},
+		customerDetails: {
+			name: "john",
+			phone: "081234567890",
+			email: "john@example.com",
+			ipAddress: "10.100.10.10",
+		},
+		callbackUrl: "https://google.com",
+		returnUrl: "https://google.com",
+		description: "payment test sdk local",
+	})
+	.then((response) => {
+		// your codes to hanldle returned data...
+		// in this example response.data will return html value
+	})
+	.catch((err) => {
+		// your codes to hanldle returned data...
+	});
+```
+
 [BACK TO PG](../PG.md)

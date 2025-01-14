@@ -1,15 +1,15 @@
 import {PGClientResponse, PGResponse} from "./type";
 
-export class PGResponseConstructor<T> {
-	response: PGResponse<T>;
+export class PGResponseConstructor<T, U> {
+	response: PGResponse<U>;
 	responseClient: PGClientResponse<T>;
 
-	constructor(res: PGClientResponse<T>) {
-		this.set(res);
+	constructor(resClient: PGClientResponse<T>) {
+		this.set(resClient);
 	}
 
-	private set(res: PGClientResponse<T>) {
-		if (!res || typeof res !== "object") {
+	private set(resClient: PGClientResponse<T>) {
+		if (!resClient || typeof resClient !== "object") {
 			const internalError = sendSystemError<T>(
 				Error("invalid response client")
 			);
@@ -17,10 +17,10 @@ export class PGResponseConstructor<T> {
 			return this;
 		}
 
-		this.responseClient = res;
+		this.responseClient = resClient;
 		this.response = {
-			responseCode: res.response_code,
-			responseMessage: res.response_message,
+			responseCode: resClient.response_code,
+			responseMessage: resClient.response_message,
 		};
 		return this;
 	}
@@ -33,7 +33,7 @@ export class PGResponseConstructor<T> {
 		return this;
 	}
 
-	build(): PGResponse<T> {
+	build(): PGResponse<U> {
 		return this.response;
 	}
 }
