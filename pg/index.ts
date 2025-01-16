@@ -1,7 +1,7 @@
 import {Card} from "./card";
 import {PGClient} from "./config/pgClient";
 import {PGConfig} from "./config/pgConfig";
-import {PGConfigOptions} from "./util/type";
+import {PGConfigOptions} from "./utils/type";
 
 /**
  * @description iFortepay's Payment Gateway

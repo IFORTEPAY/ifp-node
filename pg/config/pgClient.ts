@@ -1,8 +1,8 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from "axios";
-import {BASE_URL} from "../util/constant";
-import {sendSystemError} from "../util/response";
+import {BASE_URL} from "../utils/constant";
+import {sendSystemError} from "../utils/response";
 import {PGConfig} from "./pgConfig";
-import {PGClientOptions, PGClientResponse} from "../util/type";
+import {PGClientOptions, PGClientResponse} from "../utils/type";
 
 export class PGClient {
 	private client: AxiosInstance;

@@ -1,8 +1,9 @@
 import {
 	RequestCharge,
 	RequestChargeDirect,
+	RequestChargeDirectV2,
 	ResponseDataChargeDirectJSON,
-} from "../../../pg/card/utils/type";
+} from "../../../pg/card/models";
 
 export const REQUEST_CARD_CHARGE: RequestCharge = {
 	externalId: "externalId0000001",
@@ -37,8 +38,14 @@ export const REQUEST_CARD_CHARGE_DIRECT_V1: RequestChargeDirect = {
 	...REQUEST_CARD_CHARGE,
 };
 
-export const REQUEST_CARD_CHARGE_DIRECT_V2: RequestChargeDirect = {
+export const REQUEST_CARD_CHARGE_DIRECT_V2: RequestChargeDirectV2 = {
 	...REQUEST_CARD_CHARGE,
+	cardDetails: {
+		name: "Anon",
+		number: "1889800000001234",
+		expMonth: "01",
+		expYear: "2039",
+	},
 	paymentChannel: "BCACC",
 };
 
