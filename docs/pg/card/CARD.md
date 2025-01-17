@@ -121,4 +121,62 @@ card
 	});
 ```
 
+## Charge Direct V2
+
+Feature for API Direct Payment V2. Direct Payment V2 is a Non 3D Secured transaction without using OTP verification. Card CVV/CVN on Direct Payment V2 is not required, it could be a string or undefined.
+
+### Request and Response
+
+Go to this [page](CHARGE.DIRECT.V2.md) to read the full detail about request and response for Charge Direct V2 feature.
+
+### Usage Example
+
+```typescript
+// import package
+const iFortepay = require("ifp-node");
+const {PG} = iFortepay;
+
+// initiate PG
+const {
+	// list of payment methods...
+	Card,
+} = new PG({
+	merchantId: YOUR_MERCHANT_ID,
+	secretUnboundId: YOUR_SECRET_UNBOUND_ID,
+	hashKey: YOUR_HASH_KEY,
+});
+
+// use Card Charge Direct method
+card
+	.chargeDirectV2({
+		externalId: "uniqueExternalId000001",
+		orderId: "orderId000000001",
+		paymentMode: "CLOSE",
+		paymentChannel: "BCAPG",
+		amount: 15000,
+		cardDetails: {
+			name: "JOHN",
+			number: "1889800000001234",
+			expMonth: "01",
+			expYear: "2077",
+		},
+		customerDetails: {
+			name: "john",
+			phone: "081234567890",
+			email: "john@example.com",
+			ipAddress: "10.100.10.10",
+		},
+		callbackUrl: "https://google.com",
+		returnUrl: "https://google.com",
+		description: "payment test sdk local",
+	})
+	.then((response) => {
+		// your codes to hanldle returned data...
+		// in this example response.data will return html value
+	})
+	.catch((err) => {
+		// your codes to hanldle returned data...
+	});
+```
+
 [BACK TO PG](../PG.md)

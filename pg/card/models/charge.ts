@@ -1,7 +1,19 @@
-import {PGHeaders} from "../../util/type";
+import {PGHeaders} from "../../utils/type";
 
-type ResponseTypeCharge = "html" | "url";
+export type ResponseTypeCharge = "html" | "url";
 
+export interface HeaderCard extends PGHeaders {
+	"response-type"?: ResponseTypeCharge;
+}
+
+export interface RequestHeaderCard {
+	externalId: string;
+	orderId: string;
+	subMerchantId?: string;
+	responseType?: ResponseTypeCharge;
+}
+
+// REQUEST BODY CHARGE METHODS
 export interface RequestCardDetails {
 	name: string;
 	number: string;
@@ -67,6 +79,7 @@ export interface RequestCharge {
 	paymentOptions?: RequestPaymentOptions;
 }
 
+// REQUEST BODY CHARGE MIDDLEWARE
 export interface BodyCardDetails {
 	card_holder_name: string;
 	card_number: string;
@@ -136,53 +149,8 @@ export interface BodyCharge {
 	payment_options?: BodyPaymentOptions;
 }
 
+// RESPONSE DATA CHARGE
 export interface ResponseDataCharge {
 	html?: string;
 	link?: string;
-}
-
-export interface RequestChargeDirect
-	extends Omit<RequestCharge, "responseType"> {}
-
-export interface BodyChargeDirect extends BodyCharge {}
-
-export interface TransactionDataChargeDirectJSON {
-	external_id?: string;
-	receipt_no?: string;
-	order_id?: string;
-	transaction_id?: string;
-	approval_code?: string;
-}
-export interface ResponseDataChargeDirectJSON {
-	token: string;
-	status: string;
-	transaction_code: string;
-	transaction_description: string;
-	transaction_data?: TransactionDataChargeDirectJSON;
-}
-
-export interface TransactionDataChargeDirect {
-	externalId?: string;
-	receiptNo?: string;
-	orderId?: string;
-	transactionId?: string;
-	approvalCode?: string;
-}
-export interface ResponseDataChargeDirect {
-	token: string;
-	status: string;
-	transactionCode: string;
-	transactionDescription: string;
-	transactionData?: TransactionDataChargeDirect;
-}
-
-export interface RequestHeaderCard {
-	externalId: string;
-	orderId: string;
-	subMerchantId?: string;
-	responseType?: ResponseTypeCharge;
-}
-
-export interface HeaderCard extends PGHeaders {
-	"response-type"?: ResponseTypeCharge;
 }

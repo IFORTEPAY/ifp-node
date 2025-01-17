@@ -1,11 +1,11 @@
-import {PGResponseConstructor} from "../../util/response";
-import {PGClientResponse} from "../../util/type";
+import {PGResponseConstructor} from "../../utils/response";
+import {PGClientResponse} from "../../utils/type";
 import {
 	ResponseDataCharge,
 	ResponseDataChargeDirect,
 	ResponseDataChargeDirectJSON,
 	TransactionDataChargeDirect,
-} from "./type";
+} from "../models";
 
 export class CardResponse<T, U> extends PGResponseConstructor<T, U> {
 	constructor(resClient: PGClientResponse<T>) {

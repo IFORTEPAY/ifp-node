@@ -1,5 +1,5 @@
-import {DEFAULT_CLIENT_TIMEOUT} from "../util/constant";
-import {PGConfigOptions} from "../util/type";
+import {DEFAULT_CLIENT_TIMEOUT} from "../utils/constant";
+import {PGConfigOptions} from "../utils/type";
 
 export class PGConfig {
 	isProduction: boolean;

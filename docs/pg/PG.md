@@ -43,7 +43,7 @@ Card.charge({
 | **merchantId**      | **string**  |    ☑️    |         |                      |
 | **secretUnboundId** | **string**  |    ☑️    |         |                      |
 | **hashKey**         | **string**  |    ☑️    |         |                      |
-| **timeout**         | **number**  |          |  10000  | format in milisecond |
+| **timeout**         | **number**  |          |  15000  | format in milisecond |
 | **subMerchantId**   | **string**  |          |         |                      |
 
 ## Payment Methods

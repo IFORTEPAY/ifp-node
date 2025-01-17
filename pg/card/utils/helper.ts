@@ -1,20 +1,22 @@
 import {
 	BodyAddressDetails,
 	BodyCardDetails,
+	BodyCardDetailsV2,
 	BodyCustomerDetails,
 	BodyItemDetails,
 	BodyPaymentDetails,
 	BodyPaymentOptions,
 	BodyTokenDetails,
+	BodyTokenDetailsV2,
 	RequestAddressDetails,
 	RequestCardDetails,
-	RequestCharge,
+	RequestCardDetailsV2,
 	RequestCustomerDetails,
 	RequestItemDetails,
 	RequestPaymentOptions,
 	RequestTokenDetails,
-} from "./type";
-import {PATH, PAYMENT_CHANNEL} from "./constant";
+	RequestTokenDetailsV2,
+} from "../models";
 
 export const mapCardDetails = (
 	request: RequestCardDetails | RequestTokenDetails
@@ -37,15 +39,38 @@ export const mapCardDetails = (
 	return result;
 };
 
-export const mapPaymentDetails = (
-	request: RequestCharge
-): BodyPaymentDetails => {
-	if (!request) {
-		return {amount: 0, transaction_description: ""};
+export const mapCardDetailsV2 = (
+	request: RequestCardDetailsV2 | RequestTokenDetailsV2
+): BodyCardDetailsV2 | BodyTokenDetailsV2 => {
+	if ("token" in request) {
+		const result: BodyTokenDetailsV2 = {
+			token: request?.token,
+		};
+		if (request?.cvv) {
+			result.card_cvn = request?.cvv;
+		}
+		return result;
 	}
+
+	const result: BodyCardDetailsV2 = {
+		card_holder_name: request?.name,
+		card_number: request?.number,
+		card_expired_month: request?.expMonth,
+		card_expired_year: request?.expYear,
+	};
+	if (request?.cvv) {
+		result.card_cvn = request?.cvv;
+	}
+	return result;
+};
+
+export const mapPaymentDetails = (
+	amount: number,
+	description: string
+): BodyPaymentDetails => {
 	const result: BodyPaymentDetails = {
-		amount: request?.amount,
-		transaction_description: request?.description,
+		amount: amount ?? 0,
+		transaction_description: description ?? "",
 	};
 	return result;
 };
@@ -115,12 +140,4 @@ export const mapPaymentOptions = (
 		result.rule_code = request.ruleCode;
 	}
 	return result;
-};
-
-export const mapPathChargeDirect = (channel: string): string => {
-	const channelV1 = [PAYMENT_CHANNEL.BCAPG, PAYMENT_CHANNEL.CIMBPG];
-	if (channelV1.includes(channel?.toUpperCase())) {
-		return PATH.CHARGE_DIRECT_V1;
-	}
-	return PATH.CHARGE_DIRECT_V2;
 };

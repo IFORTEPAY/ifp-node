@@ -1,4 +1,4 @@
-## CARD CHARGE
+## CARD CHARGE DIRECT
 
 ### Request Parameter
 

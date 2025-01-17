@@ -5,8 +5,8 @@ export const BASE_URL = {
 	PROD: "https://api-live.mcpayment.id",
 };
 
-/** default timeout format in ms set to 10 second */
-export const DEFAULT_CLIENT_TIMEOUT = 10000;
+/** default timeout format in ms set to 15 second */
+export const DEFAULT_CLIENT_TIMEOUT = 15000;
 
 export const DEFAULT_IP = "10.10.10.100";
 export const MIS_VERSION_3 = "v3";

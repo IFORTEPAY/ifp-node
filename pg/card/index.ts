@@ -4,34 +4,38 @@ import {
 	CURRENCY,
 	MIS_VERSION_3,
 	PAYMENT_METHOD,
-} from "../util/constant";
-import {generateAuth, generateSignature} from "../util/helper";
-import {PGResponse} from "../util/type";
-import {PATH, PAYMENT_MODE} from "./utils/constant";
-import {
-	mapAddressDetails,
-	mapCardDetails,
-	mapCustomerDetails,
-	mapItemDetails,
-	mapPathChargeDirect,
-	mapPaymentDetails,
-	mapPaymentOptions,
-} from "./utils/helper";
-import {cardResponseConstructor} from "./utils/response";
+} from "../utils/constant";
+import {generateAuth, generateSignature} from "../utils/helper";
+import {PGResponse} from "../utils/type";
 import {
 	BodyCardDetails,
+	BodyCardDetailsV2,
 	BodyCharge,
 	BodyChargeDirect,
+	BodyChargeDirectV2,
 	BodyCustomerDetails,
 	BodyTokenDetails,
+	BodyTokenDetailsV2,
 	HeaderCard,
 	RequestCharge,
 	RequestChargeDirect,
+	RequestChargeDirectV2,
 	RequestHeaderCard,
 	ResponseDataCharge,
 	ResponseDataChargeDirect,
 	ResponseDataChargeDirectJSON,
-} from "./utils/type";
+} from "./models";
+import {PATH, PAYMENT_MODE} from "./utils/constant";
+import {
+	mapAddressDetails,
+	mapCardDetails,
+	mapCardDetailsV2,
+	mapCustomerDetails,
+	mapItemDetails,
+	mapPaymentDetails,
+	mapPaymentOptions,
+} from "./utils/helper";
+import {cardResponseConstructor} from "./utils/response";
 
 /**
  * @description Card Payment method endpoint features
@@ -84,7 +88,10 @@ export class Card {
 	): Promise<PGResponse<ResponseDataCharge>> {
 		this.pgClient.setOptionPath(PATH.CHARGE);
 
-		const paymentDetails = mapPaymentDetails(request);
+		const paymentDetails = mapPaymentDetails(
+			request?.amount,
+			request?.description
+		);
 
 		let cardDetails = {} as BodyTokenDetails | BodyCardDetails;
 		if (request?.cardDetails) {
@@ -185,10 +192,12 @@ export class Card {
 	async chargeDirect(
 		request: RequestChargeDirect
 	): Promise<PGResponse<ResponseDataChargeDirect>> {
-		const path = mapPathChargeDirect(request?.paymentChannel);
-		this.pgClient.setOptionPath(path);
+		this.pgClient.setOptionPath(PATH.CHARGE_DIRECT_V1);
 
-		const paymentDetails = mapPaymentDetails(request);
+		const paymentDetails = mapPaymentDetails(
+			request?.amount,
+			request?.description
+		);
 
 		let cardDetails = {} as BodyTokenDetails | BodyCardDetails;
 		if (request?.cardDetails) {
@@ -201,6 +210,109 @@ export class Card {
 		}
 
 		const body: BodyChargeDirect = {
+			external_id: request?.externalId,
+			order_id: request?.orderId,
+			currency: request?.currency ?? CURRENCY.IDR,
+			payment_method: PAYMENT_METHOD.CARD,
+			payment_channel: request?.paymentChannel,
+			payment_mode: request?.paymentMode ?? PAYMENT_MODE.CLOSE,
+			callback_url: request?.callbackUrl,
+			return_url: request?.returnUrl,
+			card_details: cardDetails,
+			payment_details: paymentDetails,
+			customer_details: customerDetails,
+		};
+
+		if (request?.itemDetails && request.itemDetails.length > 0) {
+			const requestItem = mapItemDetails(request.itemDetails);
+			body.item_details = requestItem;
+		}
+
+		if (request?.billingAddress) {
+			const billingAddress = mapAddressDetails(request.billingAddress);
+			body.billing_address = billingAddress;
+		}
+
+		if (request?.shippingAddress) {
+			const shippingAddress = mapAddressDetails(request.shippingAddress);
+			body.shipping_address = shippingAddress;
+		}
+
+		if (request?.paymentOptions) {
+			body.payment_options = mapPaymentOptions(request.paymentOptions);
+		}
+
+		if (request?.additionalData) {
+			body.additional_data = request.additionalData;
+		}
+
+		if (typeof request?.storeToken == "undefined") {
+			body.store_token = true;
+		} else {
+			body.store_token = request.storeToken;
+		}
+
+		this.pgClient.setOptionBody(body);
+
+		const requestHeader: RequestHeaderCard = {
+			externalId: request?.externalId,
+			orderId: request?.orderId,
+		};
+
+		if (this.pgClient.pgConfig.subMerchantId) {
+			requestHeader.subMerchantId = this.pgClient.pgConfig.subMerchantId;
+		}
+
+		this.getRequestHeaders(requestHeader);
+
+		try {
+			const clientResponse =
+				await this.pgClient.post<ResponseDataChargeDirectJSON>();
+			if (clientResponse.error || !clientResponse.data) {
+				throw clientResponse;
+			}
+			const constructor = cardResponseConstructor<
+				ResponseDataChargeDirectJSON,
+				ResponseDataChargeDirect
+			>(clientResponse);
+			const response = constructor.getChargeDirect().build();
+			return response;
+		} catch (err) {
+			const constructor = cardResponseConstructor<
+				ResponseDataChargeDirectJSON,
+				ResponseDataChargeDirect
+			>(err);
+			const response = constructor.getError().build();
+			return response;
+		}
+	}
+
+	/**
+	 * @description direct payment V2 non 3DS without using OTP verification, card CVV/CVN is optional
+	 * @param {RequestChargeDirectV2} request
+	 * @returns {Promise<PGResponse<ResponseDataChargeDirect>>}
+	 */
+	async chargeDirectV2(
+		request: RequestChargeDirectV2
+	): Promise<PGResponse<ResponseDataChargeDirect>> {
+		this.pgClient.setOptionPath(PATH.CHARGE_DIRECT_V2);
+
+		const paymentDetails = mapPaymentDetails(
+			request?.amount,
+			request?.description
+		);
+
+		let cardDetails = {} as BodyTokenDetailsV2 | BodyCardDetailsV2;
+		if (request?.cardDetails) {
+			cardDetails = mapCardDetailsV2(request.cardDetails);
+		}
+
+		let customerDetails = {} as BodyCustomerDetails;
+		if (request?.customerDetails) {
+			customerDetails = mapCustomerDetails(request.customerDetails);
+		}
+
+		const body: BodyChargeDirectV2 = {
 			external_id: request?.externalId,
 			order_id: request?.orderId,
 			currency: request?.currency ?? CURRENCY.IDR,
