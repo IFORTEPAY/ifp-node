@@ -90,7 +90,7 @@ export class Card {
 
 		const paymentDetails = mapPaymentDetails(
 			request?.amount,
-			request?.description
+			request?.transactionDescription
 		);
 
 		let cardDetails = {} as BodyTokenDetails | BodyCardDetails;
@@ -196,7 +196,7 @@ export class Card {
 
 		const paymentDetails = mapPaymentDetails(
 			request?.amount,
-			request?.description
+			request?.transactionDescription
 		);
 
 		let cardDetails = {} as BodyTokenDetails | BodyCardDetails;
@@ -299,7 +299,7 @@ export class Card {
 
 		const paymentDetails = mapPaymentDetails(
 			request?.amount,
-			request?.description
+			request?.transactionDescription
 		);
 
 		let cardDetails = {} as BodyTokenDetailsV2 | BodyCardDetailsV2;

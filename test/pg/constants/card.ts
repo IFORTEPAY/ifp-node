@@ -12,21 +12,21 @@ export const REQUEST_CARD_CHARGE: RequestCharge = {
 	paymentChannel: "BCAPG",
 	amount: 15000,
 	cardDetails: {
-		name: "Anon",
-		number: "1889800000001234",
-		expMonth: "01",
-		expYear: "2039",
-		cvv: "101",
+		cardHolderName: "Anon",
+		cardNumber: "1889800000001234",
+		cardExpiredMonth: "01",
+		cardExpiredYear: "2039",
+		cardCvn: "101",
 	},
 	customerDetails: {
-		name: "anon",
+		fullName: "anon",
 		phone: "081234567890",
 		email: "anon@example.com",
 		ipAddress: "10.100.10.10",
 	},
 	callbackUrl: "https://google.com",
 	returnUrl: "https://google.com",
-	description: "payment test sdk local",
+	transactionDescription: "payment test sdk local",
 };
 
 export const RESPONSE_CARD_CHARGE = {
@@ -41,10 +41,10 @@ export const REQUEST_CARD_CHARGE_DIRECT_V1: RequestChargeDirect = {
 export const REQUEST_CARD_CHARGE_DIRECT_V2: RequestChargeDirectV2 = {
 	...REQUEST_CARD_CHARGE,
 	cardDetails: {
-		name: "Anon",
-		number: "1889800000001234",
-		expMonth: "01",
-		expYear: "2039",
+		cardHolderName: "Anon",
+		cardNumber: "1889800000001234",
+		cardExpiredMonth: "01",
+		cardExpiredYear: "2039",
 	},
 	paymentChannel: "BCACC",
 };

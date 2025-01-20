@@ -15,27 +15,27 @@ export interface RequestHeaderCard {
 
 // REQUEST BODY CHARGE METHODS
 export interface RequestCardDetails {
-	name: string;
-	number: string;
-	expMonth: string;
-	expYear: string;
-	cvv: string;
+	cardHolderName: string;
+	cardNumber: string;
+	cardExpiredMonth: string;
+	cardExpiredYear: string;
+	cardCvn: string;
 }
 
 export interface RequestTokenDetails {
 	token: string;
-	cvv: string;
+	cardCvn: string;
 }
 
 export interface RequestCustomerDetails {
-	name: string;
+	fullName: string;
 	phone: string;
 	email: string;
 	ipAddress: string;
 }
 
 export interface RequestAddressDetails {
-	name?: string;
+	fullName?: string;
 	phone?: string;
 	address: string;
 	city: string;
@@ -44,7 +44,7 @@ export interface RequestAddressDetails {
 }
 
 export interface RequestItemDetails {
-	id: string;
+	itemId: string;
 	name: string;
 	amount: number;
 	qty: number;
@@ -65,7 +65,7 @@ export interface RequestCharge {
 	paymentMode?: string;
 	paymentChannel: string;
 	amount: number;
-	description: string;
+	transactionDescription: string;
 	cardDetails: RequestCardDetails | RequestTokenDetails;
 	itemDetails?: RequestItemDetails[];
 	customerDetails: RequestCustomerDetails;

@@ -10,34 +10,34 @@
 | **paymentMode**     |     **string**      |          |  CLOSE  |                                       |
 | **paymentChannel**  |     **string**      |    ☑️    |         |                                       |
 | **amount**          |     **number**      |    ☑️    |         |                                       |
-| **description**     |     **string**      |    ☑️    |         |                                       |
+| **transactionDescription**     |     **string**      |    ☑️    |         |                                       |
 | **cardDetails**     |     **object**      |    ☑️    |         |                                       |
-| - name              |     **string**      |    ☑️    |         | required if card number exist         |
-| - number            |     **string**      |    ☑️    |         |                                       |
-| - expMonth          |     **string**      |    ☑️    |         | required if card number exist         |
-| - expYear           |     **string**      |    ☑️    |         | required if card number exist         |
-| - cvv               |     **string**      |    ☑️    |         |                                       |
+| - cardHolderName           |     **string**      |    ☑️    |         | required if card number exist         |
+| - cardNumber            |     **string**      |    ☑️    |         |                                       |
+| - cardExpiredMonth          |     **string**      |    ☑️    |         | required if card number exist         |
+| - cardExpiredYear           |     **string**      |    ☑️    |         | required if card number exist         |
+| - cardCvn               |     **string**      |    ☑️    |         |                                       |
 | - token             |     **string**      |    ☑️    |         | required if card number doesn't exist |
 | **itemDetails**     | **array of object** |          |         |                                       |
-| - id                |     **string**      |    ☑️    |         |                                       |
+| - itemId                |     **string**      |    ☑️    |         |                                       |
 | - name              |     **string**      |    ☑️    |         |                                       |
 | - amount            |     **number**      |    ☑️    |         |                                       |
 | - qty               |     **number**      |    ☑️    |         |                                       |
 | - description       |     **string**      |          |         |                                       |
 | **customerDetails** |     **object**      |    ☑️    |         |                                       |
-| - name              |     **string**      |    ☑️    |         |                                       |
+| - fullName              |     **string**      |    ☑️    |         |                                       |
 | - phone             |     **string**      |    ☑️    |         |                                       |
 | - email             |     **string**      |    ☑️    |         |                                       |
 | - ipAddress         |     **string**      |    ☑️    |         |                                       |
 | **billingAddress**  |     **object**      |          |         |                                       |
-| - name              |     **string**      |          |         |                                       |
+| - fullName              |     **string**      |          |         |                                       |
 | - phone             |     **string**      |          |         |                                       |
 | - address           |     **string**      |    ☑️    |         |                                       |
 | - city              |     **string**      |    ☑️    |         |                                       |
 | - postalCode        |     **string**      |    ☑️    |         |                                       |
 | - country           |     **string**      |    ☑️    |         |                                       |
 | **shippingAddress** |     **object**      |          |         |                                       |
-| - name              |     **string**      |          |         |                                       |
+| - fullName              |     **string**      |          |         |                                       |
 | - phone             |     **string**      |          |         |                                       |
 | - address           |     **string**      |    ☑️    |         |                                       |
 | - city              |     **string**      |    ☑️    |         |                                       |

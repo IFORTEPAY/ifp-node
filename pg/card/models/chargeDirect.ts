@@ -11,13 +11,14 @@ import {
 export interface RequestChargeDirect
 	extends Omit<RequestCharge, "responseType"> {}
 
-export interface RequestCardDetailsV2 extends Omit<RequestCardDetails, "cvv"> {
-	cvv?: string;
+export interface RequestCardDetailsV2
+	extends Omit<RequestCardDetails, "cardCvn"> {
+	cardCvn?: string;
 }
 
 export interface RequestTokenDetailsV2
-	extends Omit<RequestTokenDetails, "cvv"> {
-	cvv?: string;
+	extends Omit<RequestTokenDetails, "cardCvn"> {
+	cardCvn?: string;
 }
 
 export interface RequestChargeDirectV2

@@ -145,7 +145,7 @@ describe("Card test", () => {
 		expect(requestBodyClient.payment_channel).toBe(
 			REQUEST_CARD_CHARGE_DIRECT_V1.paymentChannel
 		);
-		expect(request.cardDetails.cvv).toBeDefined();
+		expect(request.cardDetails.cardCvn).toBeDefined();
 
 		expect(pgClient.post).toHaveBeenCalledTimes(1);
 		expect(resp.data).toBeDefined();
@@ -168,7 +168,7 @@ describe("Card test", () => {
 		expect(requestBodyClient.payment_channel).toBe(
 			REQUEST_CARD_CHARGE_DIRECT_V2.paymentChannel
 		);
-		expect(request.cardDetails.cvv).toBeUndefined();
+		expect(request.cardDetails.cardCvn).toBeUndefined();
 
 		expect(pgClient.post).toHaveBeenCalledTimes(2);
 		expect(resp.data).toBeDefined();

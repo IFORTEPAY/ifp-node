@@ -24,17 +24,17 @@ export const mapCardDetails = (
 	if ("token" in request) {
 		const result: BodyTokenDetails = {
 			token: request?.token,
-			card_cvn: request?.cvv,
+			card_cvn: request?.cardCvn,
 		};
 		return result;
 	}
 
 	const result: BodyCardDetails = {
-		card_holder_name: request?.name,
-		card_number: request?.number,
-		card_expired_month: request?.expMonth,
-		card_expired_year: request?.expYear,
-		card_cvn: request?.cvv,
+		card_holder_name: request?.cardHolderName,
+		card_number: request?.cardNumber,
+		card_expired_month: request?.cardExpiredMonth,
+		card_expired_year: request?.cardExpiredYear,
+		card_cvn: request?.cardCvn,
 	};
 	return result;
 };
@@ -46,20 +46,20 @@ export const mapCardDetailsV2 = (
 		const result: BodyTokenDetailsV2 = {
 			token: request?.token,
 		};
-		if (request?.cvv) {
-			result.card_cvn = request?.cvv;
+		if (request?.cardCvn) {
+			result.card_cvn = request?.cardCvn;
 		}
 		return result;
 	}
 
 	const result: BodyCardDetailsV2 = {
-		card_holder_name: request?.name,
-		card_number: request?.number,
-		card_expired_month: request?.expMonth,
-		card_expired_year: request?.expYear,
+		card_holder_name: request?.cardHolderName,
+		card_number: request?.cardCvn,
+		card_expired_month: request?.cardExpiredMonth,
+		card_expired_year: request?.cardExpiredYear,
 	};
-	if (request?.cvv) {
-		result.card_cvn = request?.cvv;
+	if (request?.cardCvn) {
+		result.card_cvn = request?.cardCvn;
 	}
 	return result;
 };
@@ -79,7 +79,7 @@ export const mapCustomerDetails = (
 	request: RequestCustomerDetails
 ): BodyCustomerDetails => {
 	const result: BodyCustomerDetails = {
-		full_name: request?.name,
+		full_name: request?.fullName,
 		phone: request?.phone,
 		email: request?.email,
 		ip_address: request?.ipAddress,
@@ -92,7 +92,7 @@ export const mapItemDetails = (
 ): BodyItemDetails[] => {
 	const result = request.map((item): BodyItemDetails => {
 		const data: BodyItemDetails = {
-			item_id: item.id,
+			item_id: item.itemId,
 			name: item.name,
 			amount: item.amount,
 			qty: item.qty,
@@ -114,8 +114,8 @@ export const mapAddressDetails = (
 		postal_code: request.postalCode,
 		country: request.country,
 	};
-	if (request.name) {
-		result.full_name = request.name;
+	if (request.fullName) {
+		result.full_name = request.fullName;
 	}
 	if (request.phone) {
 		result.phone = request.phone;
