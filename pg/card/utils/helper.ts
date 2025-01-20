@@ -54,7 +54,7 @@ export const mapCardDetailsV2 = (
 
 	const result: BodyCardDetailsV2 = {
 		card_holder_name: request?.cardHolderName,
-		card_number: request?.cardCvn,
+		card_number: request?.cardNumber,
 		card_expired_month: request?.cardExpiredMonth,
 		card_expired_year: request?.cardExpiredYear,
 	};
