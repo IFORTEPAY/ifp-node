@@ -2,57 +2,57 @@
 
 ### Request Parameter
 
-| Field               |        Type         | Required | Default | details                               |
-| ------------------- | :-----------------: | :------: | :-----: | ------------------------------------- |
-| **externalId**      |     **string**      |    ☑️    |         | must be unique                        |
-| **orderId**         |     **string**      |    ☑️    |         |                                       |
-| **currency**        |     **string**      |          |   IDR   |                                       |
-| **paymentMode**     |     **string**      |          |  CLOSE  |                                       |
-| **paymentChannel**  |     **string**      |    ☑️    |         |                                       |
-| **amount**          |     **number**      |    ☑️    |         |                                       |
-| **transactionDescription**     |     **string**      |    ☑️    |         |                                       |
-| **cardDetails**     |     **object**      |    ☑️    |         |                                       |
+| Field                      |        Type         | Required | Default | details                               |
+| -------------------------- | :-----------------: | :------: | :-----: | ------------------------------------- |
+| **externalId**             |     **string**      |    ☑️    |         | must be unique                        |
+| **orderId**                |     **string**      |    ☑️    |         |                                       |
+| **currency**               |     **string**      |          |   IDR   |                                       |
+| **paymentMode**            |     **string**      |          |  CLOSE  |                                       |
+| **paymentChannel**         |     **string**      |    ☑️    |         |                                       |
+| **amount**                 |     **number**      |    ☑️    |         |                                       |
+| **transactionDescription** |     **string**      |    ☑️    |         |                                       |
+| **cardDetails**            |     **object**      |    ☑️    |         |                                       |
 | - cardHolderName           |     **string**      |    ☑️    |         | required if card number exist         |
-| - cardNumber            |     **string**      |    ☑️    |         |                                       |
-| - cardExpiredMonth          |     **string**      |    ☑️    |         | required if card number exist         |
-| - cardExpiredYear           |     **string**      |    ☑️    |         | required if card number exist         |
-| - cardCvn               |     **string**      |    ☑️    |         |                                       |
-| - token             |     **string**      |    ☑️    |         | required if card number doesn't exist |
-| **itemDetails**     | **array of object** |          |         |                                       |
-| - itemId                |     **string**      |    ☑️    |         |                                       |
-| - name              |     **string**      |    ☑️    |         |                                       |
-| - amount            |     **number**      |    ☑️    |         |                                       |
-| - qty               |     **number**      |    ☑️    |         |                                       |
-| - description       |     **string**      |          |         |                                       |
-| **customerDetails** |     **object**      |    ☑️    |         |                                       |
-| - fullName              |     **string**      |    ☑️    |         |                                       |
-| - phone             |     **string**      |    ☑️    |         |                                       |
-| - email             |     **string**      |    ☑️    |         |                                       |
-| - ipAddress         |     **string**      |    ☑️    |         |                                       |
-| **billingAddress**  |     **object**      |          |         |                                       |
-| - fullName              |     **string**      |          |         |                                       |
-| - phone             |     **string**      |          |         |                                       |
-| - address           |     **string**      |    ☑️    |         |                                       |
-| - city              |     **string**      |    ☑️    |         |                                       |
-| - postalCode        |     **string**      |    ☑️    |         |                                       |
-| - country           |     **string**      |    ☑️    |         |                                       |
-| **shippingAddress** |     **object**      |          |         |                                       |
-| - fullName              |     **string**      |          |         |                                       |
-| - phone             |     **string**      |          |         |                                       |
-| - address           |     **string**      |    ☑️    |         |                                       |
-| - city              |     **string**      |    ☑️    |         |                                       |
-| - postalCode        |     **string**      |    ☑️    |         |                                       |
-| - country           |     **string**      |    ☑️    |         |                                       |
-| **paymentOptions**  |     **object**      |          |         |                                       |
-| - useRewards        |     **boolean**     |          |         |                                       |
-| - campaignCode      |     **string**      |          |         |                                       |
-| - tenor             |     **number**      |          |         |                                       |
-| - ruleCode          |     **string**      |          |         |                                       |
-| **callbackUrl**     |     **string**      |    ☑️    |         |                                       |
-| **returnUrl**       |     **string**      |    ☑️    |         |                                       |
-| **responseType**    | **enum(html, url)** |          |  html   |                                       |
-| **additionalData**  |     **string**      |          |         |                                       |
-| **storeToken**      |     **boolean**     |          |  true   |                                       |
+| - cardNumber               |     **string**      |    ☑️    |         |                                       |
+| - cardExpiredMonth         |     **string**      |    ☑️    |         | required if card number exist         |
+| - cardExpiredYear          |     **string**      |    ☑️    |         | required if card number exist         |
+| - cardCvn                  |     **string**      |    ☑️    |         |                                       |
+| - token                    |     **string**      |    ☑️    |         | required if card number doesn't exist |
+| **itemDetails**            | **array of object** |          |         |                                       |
+| - itemId                   |     **string**      |    ☑️    |         |                                       |
+| - name                     |     **string**      |    ☑️    |         |                                       |
+| - amount                   |     **number**      |    ☑️    |         |                                       |
+| - qty                      |     **number**      |    ☑️    |         |                                       |
+| - description              |     **string**      |          |         |                                       |
+| **customerDetails**        |     **object**      |    ☑️    |         |                                       |
+| - fullName                 |     **string**      |    ☑️    |         |                                       |
+| - phone                    |     **string**      |    ☑️    |         |                                       |
+| - email                    |     **string**      |    ☑️    |         |                                       |
+| - ipAddress                |     **string**      |    ☑️    |         |                                       |
+| **billingAddress**         |     **object**      |          |         |                                       |
+| - fullName                 |     **string**      |          |         |                                       |
+| - phone                    |     **string**      |          |         |                                       |
+| - address                  |     **string**      |    ☑️    |         |                                       |
+| - city                     |     **string**      |    ☑️    |         |                                       |
+| - postalCode               |     **string**      |    ☑️    |         |                                       |
+| - country                  |     **string**      |    ☑️    |         |                                       |
+| **shippingAddress**        |     **object**      |          |         |                                       |
+| - fullName                 |     **string**      |          |         |                                       |
+| - phone                    |     **string**      |          |         |                                       |
+| - address                  |     **string**      |    ☑️    |         |                                       |
+| - city                     |     **string**      |    ☑️    |         |                                       |
+| - postalCode               |     **string**      |    ☑️    |         |                                       |
+| - country                  |     **string**      |    ☑️    |         |                                       |
+| **paymentOptions**         |     **object**      |          |         |                                       |
+| - useRewards               |     **boolean**     |          |         |                                       |
+| - campaignCode             |     **string**      |          |         |                                       |
+| - tenor                    |     **number**      |          |         |                                       |
+| - ruleCode                 |     **string**      |          |         |                                       |
+| **callbackUrl**            |     **string**      |    ☑️    |         |                                       |
+| **returnUrl**              |     **string**      |    ☑️    |         |                                       |
+| **responseType**           | **enum(html, url)** |          |  html   |                                       |
+| **additionalData**         |     **string**      |          |         |                                       |
+| **storeToken**             |     **boolean**     |          |  true   |                                       |
 
 ### Response Parameter
 
