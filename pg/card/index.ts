@@ -14,6 +14,7 @@ import {
 	BodyChargeDirect,
 	BodyChargeDirectV2,
 	BodyCustomerDetails,
+	BodyInquiry,
 	BodyTokenDetails,
 	BodyTokenDetailsV2,
 	HeaderCard,
@@ -21,9 +22,12 @@ import {
 	RequestChargeDirect,
 	RequestChargeDirectV2,
 	RequestHeaderCard,
+	RequestInquiry,
 	ResponseDataCharge,
 	ResponseDataChargeDirect,
 	ResponseDataChargeDirectJSON,
+	ResponseDataInquiry,
+	ResponseDataInquiryJSON,
 } from "./models";
 import {PATH, PAYMENT_MODE} from "./utils/constant";
 import {
@@ -384,6 +388,46 @@ export class Card {
 			const constructor = cardResponseConstructor<
 				ResponseDataChargeDirectJSON,
 				ResponseDataChargeDirect
+			>(err);
+			const response = constructor.getError().build();
+			return response;
+		}
+	}
+
+	async inquiry(
+		request: RequestInquiry
+	): Promise<PGResponse<ResponseDataInquiry>> {
+		this.pgClient.setOptionPath(PATH.INQURY);
+
+		const body: BodyInquiry = {
+			external_id: request?.externalId,
+			order_id: request?.orderId,
+			transaction_id: request?.transactionId,
+		};
+		this.pgClient.setOptionBody(body);
+
+		const requestHeader: RequestHeaderCard = {
+			externalId: request?.externalId,
+			orderId: request?.orderId,
+		};
+		this.getRequestHeaders(requestHeader);
+
+		try {
+			const clientResponse =
+				await this.pgClient.post<ResponseDataInquiryJSON>();
+			if (clientResponse.error || !clientResponse.data) {
+				throw clientResponse;
+			}
+			const constructor = cardResponseConstructor<
+				ResponseDataInquiryJSON,
+				ResponseDataInquiry
+			>(clientResponse);
+			const response = constructor.getInquiry().build();
+			return response;
+		} catch (err) {
+			const constructor = cardResponseConstructor<
+				ResponseDataInquiryJSON,
+				ResponseDataInquiry
 			>(err);
 			const response = constructor.getError().build();
 			return response;

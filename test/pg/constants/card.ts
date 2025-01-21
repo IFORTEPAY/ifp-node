@@ -2,8 +2,11 @@ import {
 	RequestCharge,
 	RequestChargeDirect,
 	RequestChargeDirectV2,
+	RequestInquiry,
 	ResponseDataChargeDirectJSON,
+	ResponseDataInquiryJSON,
 } from "../../../pg/card/models";
+import {PGClientResponse} from "../../../pg/utils/type";
 
 export const REQUEST_CARD_CHARGE: RequestCharge = {
 	externalId: "externalId0000001",
@@ -69,3 +72,88 @@ export const RESPONSE_CARD_CHARGE_DIRECT_V2: ResponseDataChargeDirectJSON = {
 	transaction_description:
 		"Approved: The transaction charge direct v2 was successful",
 };
+
+export const REQUEST_CARD_INQUIRY_VALID: RequestInquiry = {
+	externalId: "externalId0000001",
+	orderId: "orderId000000001",
+	transactionId: "transactionId000000001",
+};
+
+export const REQUEST_CARD_INQUIRY_INVALID: RequestInquiry = {
+	externalId: "externalId0000002",
+	orderId: "orderId000000002",
+	transactionId: "transactionId000000002",
+};
+
+export const RESPONSE_CARD_INQUIRY_VALID: ResponseDataInquiryJSON = {
+	approval_code: "089283",
+	merchant_id: "IFP202400000",
+	mis_version: "v3",
+	transaction_id: "transactionId000000001",
+	external_id: "externalId0000001",
+	order_id: "orderId000000001",
+	receipt_no: "3c6473ac1735528977",
+	response_code: "00",
+	currency: "IDR",
+	payment_method: "CARD",
+	payment_channel: "CIMBPG",
+	transaction_status: "PAID",
+	host_response_code: "00",
+	message: "The transaction has been paid.",
+	callback_url: "https://google.com",
+	return_url: "https://google.com",
+	installment_tenor: 0,
+	payment_mode: "CLOSE",
+	payment_details: {
+		amount: 15000,
+		expired_time: 1735530237222,
+		fee_amount: 0,
+		is_customer_paying_fee: false,
+		paid_time: 1735530236100,
+		total_amount: 15000,
+		total_paid_amount: 15000,
+		transaction_description: "payment test sdk local",
+	},
+	item_details: [
+		{
+			item_id: "Item01",
+			name: "Awesome Soft Computer",
+			amount: 10000,
+			qty: 1,
+			description: "3131",
+		},
+		{
+			item_id: "Item02",
+			name: "Awesome Soft Display",
+			amount: 5000,
+			qty: 1,
+			description: "3232",
+		},
+	],
+	customer_details: {
+		full_name: "john",
+		email: "john@example.com",
+		phone: "081234567890",
+		ip_address: "10.100.10.10",
+	},
+	card_details: {
+		card_holder_name: "JOHN",
+		card_number: "188980******1234",
+		card_expired_month: "01",
+		card_expired_year: "2077",
+		token: "9b1bb24e-8f98-4e7d-9a80-834e161bc083",
+		card_brand: "VISA",
+	},
+	payment_options: {
+		campaign_code: "000",
+		tenor: 0,
+		use_rewards: false,
+		acquirer_issuer_relation: "off_us",
+	},
+};
+
+export const RESPONSE_CARD_INQUIRY_INVALID: PGClientResponse<ResponseDataInquiryJSON> =
+	{
+		response_code: "01",
+		response_message: "transaction_id not found",
+	};

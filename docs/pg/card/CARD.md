@@ -179,4 +179,45 @@ card
 	});
 ```
 
+## Inquiry
+
+Feature for API Inquiry. Payment Inquiry is an endpoint to get the recent data regarding the payment status.
+
+### Request and Response
+
+Go to this [page](INQUIRY.md) to read the full detail about request and response for Inquiry feature.
+
+### Usage Example
+
+```typescript
+// import package
+const iFortepay = require("ifp-node");
+const {PG} = iFortepay;
+
+// initiate PG
+const {
+	// list of payment methods...
+	Card,
+} = new PG({
+	merchantId: YOUR_MERCHANT_ID,
+	secretUnboundId: YOUR_SECRET_UNBOUND_ID,
+	hashKey: YOUR_HASH_KEY,
+});
+
+// use Card Inquiry method
+card
+	.inquiry({
+		externalId: "externalId0000031",
+		orderId: "orderId000000031",
+		transactionId: "3c6473ac-2806-4386-86ea-4012da139cbd",
+	})
+	.then((response) => {
+		// your codes to hanldle returned data...
+		// in this example response.data will return html value
+	})
+	.catch((err) => {
+		// your codes to hanldle returned data...
+	});
+```
+
 [BACK TO PG](../PG.md)
