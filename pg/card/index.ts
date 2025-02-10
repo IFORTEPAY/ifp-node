@@ -394,6 +394,11 @@ export class Card {
 		}
 	}
 
+	/**
+	 * @description inquiry recent transaction data and status
+	 * @param {RequestInquiry} request
+	 * @returns {Promise<PGResponse<ResponseDataInquiry>>}
+	 */
 	async inquiry(
 		request: RequestInquiry
 	): Promise<PGResponse<ResponseDataInquiry>> {
