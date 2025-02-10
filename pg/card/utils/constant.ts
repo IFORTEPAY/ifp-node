@@ -7,6 +7,7 @@ export const PATH = {
 	CHARGE: "/card-v2/v1/charge",
 	CHARGE_DIRECT_V1: "/card-v2/v1/charge-direct",
 	CHARGE_DIRECT_V2: "/card-v2/v2/charge-direct",
+	INQURY: "/card-v2/inquiry",
 };
 
 export const PAYMENT_CHANNEL = {

@@ -10,6 +10,9 @@ import {
 	BodyChargeDirect,
 	BodyChargeDirectV2,
 	RequestChargeDirectV2,
+	ResponseDataInquiryJSON,
+	BodyInquiry,
+	RequestInquiry,
 } from "../../pg/card/models";
 import {PGClient} from "../../pg/config/pgClient";
 import {PGConfig} from "../../pg/config/pgConfig";
@@ -19,9 +22,13 @@ import {
 	REQUEST_CARD_CHARGE,
 	REQUEST_CARD_CHARGE_DIRECT_V1,
 	REQUEST_CARD_CHARGE_DIRECT_V2,
+	REQUEST_CARD_INQUIRY_INVALID,
+	REQUEST_CARD_INQUIRY_VALID,
 	RESPONSE_CARD_CHARGE,
 	RESPONSE_CARD_CHARGE_DIRECT_V1,
 	RESPONSE_CARD_CHARGE_DIRECT_V2,
+	RESPONSE_CARD_INQUIRY_INVALID,
+	RESPONSE_CARD_INQUIRY_VALID,
 } from "./constants";
 
 const pgConfig = new PGConfig({
@@ -58,6 +65,7 @@ const mockChargePost = jest
 		});
 	});
 
+/** mock post() for charge direct request  */
 const mockChargeDirectPost = jest
 	.fn()
 	.mockImplementation(
@@ -75,6 +83,31 @@ const mockChargeDirectPost = jest
 				}
 
 				const result: PGClientResponse<ResponseDataChargeDirectJSON> = {
+					response_code: "00",
+					response_message: "Success",
+					data: data,
+				};
+				return resolve(result);
+			});
+		}
+	);
+
+/** mock post() for inquiry request  */
+const mockInquiryPost = jest
+	.fn()
+	.mockImplementation(
+		(): Promise<PGClientResponse<ResponseDataInquiryJSON>> => {
+			return new Promise((resolve) => {
+				const body = pgClient.pgClientOptions.body as BodyInquiry;
+				if (
+					body.transaction_id === REQUEST_CARD_INQUIRY_INVALID.transactionId
+				) {
+					const result = RESPONSE_CARD_INQUIRY_INVALID;
+					return resolve(result);
+				}
+
+				const data = RESPONSE_CARD_INQUIRY_VALID;
+				const result: PGClientResponse<ResponseDataInquiryJSON> = {
 					response_code: "00",
 					response_message: "Success",
 					data: data,
@@ -174,6 +207,83 @@ describe("Card test", () => {
 		expect(resp.data).toBeDefined();
 		expect(resp.data?.transactionDescription).toBe(
 			RESPONSE_CARD_CHARGE_DIRECT_V2.transaction_description
+		);
+	});
+
+	/** METHOD INQUIRY */
+	it("Should successfully inquiry payment", async () => {
+		pgClient.post = mockInquiryPost;
+		const card = new Card(pgClient);
+		const request: RequestInquiry = REQUEST_CARD_INQUIRY_VALID;
+		const resp = await card.inquiry(request);
+
+		expect(pgClient.pgClientOptions.path).toBe(PATH.INQURY);
+
+		const requestBodyClient = pgClient.pgClientOptions.body as BodyInquiry;
+		expect(pgClient.pgClientOptions.body).toBeDefined();
+		expect(requestBodyClient).toBeDefined();
+		expect(requestBodyClient.external_id).toBe(
+			REQUEST_CARD_INQUIRY_VALID.externalId
+		);
+		expect(requestBodyClient.order_id).toBe(REQUEST_CARD_INQUIRY_VALID.orderId);
+		expect(requestBodyClient.transaction_id).toBe(
+			REQUEST_CARD_INQUIRY_VALID.transactionId
+		);
+
+		const responseDataClient = resp.data;
+		expect(pgClient.post).toHaveBeenCalledTimes(1);
+		expect(responseDataClient).toBeDefined();
+		expect(responseDataClient?.externalId).toBe(
+			RESPONSE_CARD_INQUIRY_VALID.external_id
+		);
+		expect(responseDataClient?.orderId).toBe(
+			RESPONSE_CARD_INQUIRY_VALID.order_id
+		);
+		expect(responseDataClient?.transactionId).toBe(
+			RESPONSE_CARD_INQUIRY_VALID.transaction_id
+		);
+		expect(responseDataClient?.paymentChannel).toBe(
+			RESPONSE_CARD_INQUIRY_VALID.payment_channel
+		);
+		expect(responseDataClient?.paymentDetails).toBeDefined();
+		expect(responseDataClient?.itemDetails).toBeDefined();
+		expect(responseDataClient?.itemDetails?.length).toEqual(
+			RESPONSE_CARD_INQUIRY_VALID.item_details?.length
+		);
+		expect(responseDataClient?.customerDetails).toBeDefined();
+		expect(responseDataClient?.cardDetails).toBeDefined();
+		expect(responseDataClient?.cardDetails.cardBrand).toBe(
+			RESPONSE_CARD_INQUIRY_VALID.card_details.card_brand
+		);
+		expect(responseDataClient?.paymentOptions).toBeDefined();
+	});
+
+	it("Should failed inquiry payment", async () => {
+		pgClient.post = mockInquiryPost;
+		const card = new Card(pgClient);
+		const request: RequestInquiry = REQUEST_CARD_INQUIRY_INVALID;
+		const resp = await card.inquiry(request);
+
+		expect(pgClient.pgClientOptions.path).toBe(PATH.INQURY);
+
+		const requestBodyClient = pgClient.pgClientOptions.body as BodyInquiry;
+		expect(pgClient.pgClientOptions.body).toBeDefined();
+		expect(requestBodyClient).toBeDefined();
+		expect(requestBodyClient.external_id).toBe(
+			REQUEST_CARD_INQUIRY_INVALID.externalId
+		);
+		expect(requestBodyClient.order_id).toBe(
+			REQUEST_CARD_INQUIRY_INVALID.orderId
+		);
+		expect(requestBodyClient.transaction_id).toBe(
+			REQUEST_CARD_INQUIRY_INVALID.transactionId
+		);
+
+		expect(pgClient.post).toHaveBeenCalledTimes(2);
+		expect(resp.data).toBeUndefined();
+		expect(resp.responseCode).toBe(RESPONSE_CARD_INQUIRY_INVALID.response_code);
+		expect(resp.responseMessage).toBe(
+			RESPONSE_CARD_INQUIRY_INVALID.response_message
 		);
 	});
 
